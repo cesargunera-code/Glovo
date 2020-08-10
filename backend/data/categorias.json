@@ -1,0 +1,18 @@
+[
+    {
+        "codigoCategoria": 1,
+        "nombreCategoria": "Farmacias"
+    },
+    {
+        "codigoCategoria": 2,
+        "nombreCategoria": "Tiendas"
+    },
+    {
+        "codigoCategoria": 3,
+        "nombreCategoria": "Super"
+    },
+    {
+        "codigoCategoria": 4,
+        "nombreCategoria": "Comidas"
+    }
+]

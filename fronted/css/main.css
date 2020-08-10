@@ -1,0 +1,75 @@
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Ramabhadra&display=swap');
+/*estilos para botones*/
+.btn-radius{
+    border-radius: 20px;
+}
+.btn-light{
+    color:gray;
+}
+.btn-c1{
+    background-color: #2abb9b !important;
+    color: white !important
+}
+.btn-c1:hover{
+    background-color: #00A082 !important;
+    color: white !important
+}
+.btn-c2{
+    background-color: #28967e !important;
+    color: white !important
+}
+.btn-c2:hover{
+    background-color: #078f76 !important;
+    color: white !important
+}
+/* estilos para fonts*/
+.font-1{
+    font-family: 'Ramabhadra', sans-serif !important;
+}
+p.font-1{
+    font-family: Verdana, Geneva, Tahoma, sans-serif !important;
+}
+input{
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif !important;
+}
+
+#title{
+    font-weight: bolder;
+}
+/* backgrounds y text-color*/
+.color-blue{
+    background-color: #2abb9b !important;
+    color: white;
+}
+.color-black{
+    background-color:#4A4A4A;
+}
+.color-yellow{
+    background-color: #FFC244;
+}
+.nav-link.active{
+    background-color: transparent !important;
+    border-bottom: orange !important;
+    border-style: solid !important;
+}
+.breadcrumb-item.active{
+    color:orange !important;
+}
+.tab-pane{
+    background-color: white !important;
+    border: none !important;
+}
+.shadow{
+    box-shadow: 6px 5px 6px -3px rgba(0,0,0,0.24);
+}
+#app-background{
+    background: rgba(255,255,255,0.98);
+background: -moz-linear-gradient(left, rgba(255,255,255,0.98) 0%, rgba(255,255,255,0.98) 0%, rgba(254,182,69,1) 100%);
+background: -webkit-gradient(left top, right top, color-stop(0%, rgba(255,255,255,0.98)), color-stop(0%, rgba(255,255,255,0.98)), color-stop(100%, rgba(254,182,69,1)));
+background: -webkit-linear-gradient(left, rgba(255,255,255,0.98) 0%, rgba(255,255,255,0.98) 0%, rgba(254,182,69,1) 100%);
+background: -o-linear-gradient(left, rgba(255,255,255,0.98) 0%, rgba(255,255,255,0.98) 0%, rgba(254,182,69,1) 100%);
+background: -ms-linear-gradient(left, rgba(255,255,255,0.98) 0%, rgba(255,255,255,0.98) 0%, rgba(254,182,69,1) 100%);
+background: linear-gradient(to right, rgba(255,255,255,0.98) 0%, rgba(255,255,255,0.98) 0%, rgba(254,182,69,1) 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#feb645', GradientType=1 );
+}

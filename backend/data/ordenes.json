@@ -1,0 +1,62 @@
+[
+    {
+        "codigoOrden": 0,
+        "productos": [
+            {
+                "codigoProducto": 1,
+                "nombreProducto": "producto1",
+                "descripcion": "descripcion1",
+                "imagen": "resource/img/img-productos/img-1.jpg",
+                "precio": 99
+            },
+            {
+                "codigoProducto": 2,
+                "nombreProducto": "producto2",
+                "descripcion": "descripcion2",
+                "imagen": "resource/img/img-productos/img-2.jpg",
+                "precio": 102
+            },
+            {
+                "codigoProducto": 3,
+                "nombreProducto": "producto3",
+                "descripcion": "descripcion3",
+                "imagen": "resource/img/img-productos/img-3.jpg",
+                "precio": 105
+            }
+        ],
+        "subtotal": 0,
+        "descuento": 0.2,
+        "isv": 0.15,
+        "total": 0
+    },
+    {
+        "codigoOrden": 0,
+        "productos": [
+            {
+                "codigoProducto": 1,
+                "nombreProducto": "producto1",
+                "descripcion": "descripcion1",
+                "imagen": "resource/img/img-productos/img-1.jpg",
+                "precio": 99
+            },
+            {
+                "codigoProducto": 2,
+                "nombreProducto": "producto2",
+                "descripcion": "descripcion2",
+                "imagen": "resource/img/img-productos/img-2.jpg",
+                "precio": 102
+            },
+            {
+                "codigoProducto": 3,
+                "nombreProducto": "producto3",
+                "descripcion": "descripcion3",
+                "imagen": "resource/img/img-productos/img-3.jpg",
+                "precio": 105
+            }
+        ],
+        "subtotal": 0,
+        "descuento": 0.2,
+        "isv": 0.15,
+        "total": 0
+    }
+]

@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Empleados</title>
+</head>
+
+<body class="container-fluid px-0">
+    <nav class="navbar justify-content-between mt-4 mx-5">
+        <a class="navbar-brand top" style="color: white;">
+            <img src="resource/icons/glovo-logo-2.svg" class="img-fluid" width="130px">
+        </a>
+        <form class="form-inline font-1">
+            <button class="btn btn-c1 btn-radius my-2 mx-1 py-2 px-3 shadow">
+                Registrarse
+            </button>
+            <button class="btn btn-light btn-radius my-2 mx-1 p-2 shadow" style="color: rgb(39, 37, 37);">
+                Iniciar sesion
+            </button>
+        </form>
+    </nav>
+    <hr>
+    <ul class="nav nav-pills nav-fill">
+        <li class="nav-item">
+            <a class="nav-link active" id="repartidores-tab" data-toggle="tab" href="#repartidores" role="tab" aria-controls="repartidores"
+                aria-selected="true"  onclick="verRepartidores()">
+                <img class="img-fluid" width="20%" src="resource/icons/repartidores.svg">
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="administradores-tab" data-toggle="tab" href="#administradores" role="tab" aria-controls="administradores"
+                aria-selected="false" onclick="verAdministradores()">
+                <img src="resource/icons/administradores.svg" width="20%">
+            </a>
+        </li>
+
+    </ul>
+    <hr>
+    <main>
+        <div class="container tab-content">
+            <div class="row">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb" style="background-color: transparent;">
+                        <li class="breadcrumb-item"><a href="./index.html">Inicio</a></li>
+                        <li class="breadcrumb-item"><a>Empleados</a></li>
+                        <li class="breadcrumb-item active" id="migasEmpleados"></li>
+                    </ol>
+                </nav>
+            </div>
+            <div class="container-fluid tab-pane active" id="repartidores" role="tabpanel" aria-labelledby="repartidores-tab">
+                <div class="row mb-3">
+                    <div class="col-1 mx-0">
+                        <a class="btn btn-block btn-c1" data-toggle="modal" data-target="#modalRepartidores" 
+                        onclick="intercalarBotones(false,'Repartidor')">
+                            <i class="zmdi zmdi-plus"></i></a>
+                    </div>
+                    <div class="col-11 mx-0">
+                        <input type="text" class="form-control" placeholder="Buscar Repartidor">
+                    </div>                            
+                </div>
+                <div class="row mb-3">
+                    <table class="table table-hover text-center">
+                        <thead>
+                            <tr>
+                                <th scope="col">Nombre</th>
+                                <th scope="col">Id</th>
+                                <th scope="col">Correo</th>
+                                <th scope="col">Celular</th>
+                                <th scope="col">Contraseña</th>
+                                <th scope="col">Transporte</th>
+                                <th scope="col">Zona</th>
+                                <th scope="col">Sueldo</th>
+                                <th scope="col">Actualizar</th>
+                                <th scope="col">Eliminar</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tablaRepartidores">
+                            
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="container-fluid tab-pane" id="administradores" role="tabpanel" aria-labelledby="administradores-tab">
+                <div class="row mb-3">
+                    <div class="col-1 mx-0">
+                        <a class="btn btn-block btn-c1" data-toggle="modal" data-target="#modalAdministradores"
+                        onclick="intercalarBotones(false,'Administrador')">
+                            <i class="zmdi zmdi-plus"></i></a>
+                    </div>
+                    <div class="col-11 mx-0">
+                        <input type="text" class="form-control" placeholder="Buscar Administrador">
+                    </div>                            
+                </div>
+                <div class="row mb-3">
+                    <table class="table table-hover text-center">
+                        <thead>
+                            <tr>
+                                <th scope="col">Nombre</th>
+                                <th scope="col">Id</th>
+                                <th scope="col">Correo</th>
+                                <th scope="col">Celular</th>
+                                <th scope="col">Contraseña</th>
+                                <th scope="col">Cargo</th>
+                                <th scope="col">Sueldo</th>
+                                <th scope="col">Actualizar</th>
+                                <th scope="col">Eliminar</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tablaAdministradores">
+                            
+                        </tbody>
+                    </table>
+                </div>
+                        
+            </div>
+        </div>
+    </main>
+    <div class="modal fade" id="modalRepartidores" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header color-blue">
+                    <h5 class="modal-title" id="tituloRepartidor">Agregar Repartidor</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="codigoRepartidor">Codigo Repartidor</label>
+                            <input id="codigoRepartidor" type="text" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="nombreRepartidor">Nombre</label>
+                            <input id="nombreRepartidor" type="text" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="correoRepartidor">Correo</label>
+                            <input id="correoRepartidor" type="text" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="telefonoRepartidor">Celular</label>
+                            <input id="telefonoRepartidor" type="text" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="direccionRepartidor">Password</label>
+                            <input id="direccionRepartidor" type="text" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="transporte">Trasnporte</label>
+                            <input id="transporte" type="text" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="zona">Zona</label>
+                            <input id="zona" type="text" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="suelod">Sueldo</label>
+                            <input id="suelod" type="text" class="form-control">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-c1 cre-btn" onclick="crearRepartidor()">Agregar</button>
+                    <button type="button" class="btn btn-c1 act-btn" onclick="actualizarRepartidor()">Actualizar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="modalAdministradores" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header  color-blue">
+                    <h5 class="modal-title" id="tituloAdministrador">Agregar Administrador</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="codigoAdministrador">Codigo Administrador</label>
+                            <input id="codigoAdministrador" type="text" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="nombreAdministrador">Nombre</label>
+                            <input id="nombreAdministrador" type="text" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="correoAdministrador">Correo</label>
+                            <input id="correoAdministrador" type="text" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="telefonoAdministrador">Celular</label>
+                            <input id="telefonoAdministrador" type="text" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="direccionAdministrador">Password</label>
+                            <input id="direccionAdministrador" type="text" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="cargo">Cargo</label>
+                            <input id="cargo" type="text" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="sueldo">Sueldo</label>
+                            <input id="sueldo" type="text" class="form-control">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-c1 cre-btn">Agregar</button>
+                    <button type="button" class="btn btn-c1 act-btn">Actualizar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="bg-dark" style="color: white;"></footer>
+    <script src="js/jquery-3.4.1.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="js/implementos.js"></script>
+    <script src="js/Ajax/empleados.js"></script>
+    <script type="text/javascript">
+        verRepartidores();
+    </script>
+</body>
+
+</html>

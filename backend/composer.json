@@ -1,0 +1,13 @@
+{
+    "name": "macao-soft/backend",
+    "description": "Conexion De Firebase Para Proyecto POO",
+    "authors": [
+        {
+            "name": "Allan Alonzo",
+            "email": "allanalvarez55@gmail.com"
+        }
+    ],
+    "require": {
+        "kreait/firebase-php": "4.32"
+    }
+}
