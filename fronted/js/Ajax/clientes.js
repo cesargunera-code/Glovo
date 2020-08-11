@@ -1,7 +1,17 @@
 const URLC = '../backend/api/clientes.php';
 
 function crearCliente(){
-
+    let cliente = $('#formularioCliente').serialize();
+    axios({
+        method: 'POST',
+        url: URLC,
+        reponseType: 'json',
+        data: cliente
+    }).then(respuesta=>{
+        console.log(respuesta);
+    }).catch(error=>{
+        console.error(error());
+    });
 }
 function verClientes(){
     document.querySelector("#tablaClientes").innerHTML=``;
