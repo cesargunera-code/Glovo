@@ -8,13 +8,14 @@ switch($_SERVER['REQUEST_METHOD']){
     case 'POST':
         $repartidor = new Repartidores(
             $_POST['codigoRepartidor'],
-            $_POST['nombre'],
-            $_POST['id'],
-            $_POST['correo'],
-            $_POST['celular'],
-            $_POST['targeta'],
-            $_POST['cargo'],
-            $_POST['sueldo']
+            $_POST['nombreRepartidor'],
+            $_POST['identidadRepartidor'],
+            $_POST['correoRepartidor'],
+            $_POST['direccionRepartidor'],
+            $_POST['celularRepartidor'],
+            $_POST['zonaRepartidor'],
+            $_POST['transporteRepartidor'],
+            $_POST['sueldoRepartidor']
         );
         $repartidor->crearRepartidor($cnn);
     break;
@@ -26,20 +27,22 @@ switch($_SERVER['REQUEST_METHOD']){
         }
     break;
     case 'PUT':
+        $_PUT = array();
         if(isset($_GET['idRepartidor'])){
             parse_str(file_get_contents("php://input"),$_PUT);
+            $repartidor = new Repartidores(
+                $_PUT['codigoRepartidor'],
+                $_PUT['nombreRepartidor'],
+                $_PUT['identidadRepartidor'],
+                $_PUT['correoRepartidor'],
+                $_PUT['direccionRepartidor'],
+                $_PUT['celularRepartidor'],
+                $_PUT['zonaRepartidor'],
+                $_PUT['transporteRepartidor'],
+                $_PUT['sueldoRepartidor']
+            );
+            $repartidor->actualizarRepartidor($cnn,$_GET['idRepartidor']);
         }
-        $Repartidor = new Repartidores(
-            $_GET['codigoRepartidor'],
-            $_PUT['nombre'],
-            $_PUT['id'],
-            $_PUT['correo'],
-            $_PUT['celular'],
-            $_PUT['targeta'],
-            $_POST['cargo'],
-            $_POST['sueldo']
-        );
-        $Repartidor->actualizarRepartidor($cnn,$_GET['idRepartidor']);
     break;
     case 'DELETE':
         Repartidores::eliminarRepartidor($cnn,$_GET['idRepartidor']);

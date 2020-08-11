@@ -8,13 +8,13 @@ switch($_SERVER['REQUEST_METHOD']){
     case 'POST':
         $administrador = new Administradores(
             $_POST['codigoAdministrador'],
-            $_POST['nombre'],
-            $_POST['id'],
-            $_POST['correo'],
-            $_POST['celular'],
-            $_POST['targeta'],
-            $_POST['cargo'],
-            $_POST['sueldo']
+            $_POST['nombreAdministrador'],
+            $_POST['identidadAdministrador'],
+            $_POST['correoAdministrador'],
+            $_POST['direccionAdministrador'],
+            $_POST['celularAdministrador'],
+            $_POST['cargoAdministrador'],
+            $_POST['sueldoAdministrador']
         );
         $administrador->crearAdministrador($cnn);
     break;
@@ -26,18 +26,19 @@ switch($_SERVER['REQUEST_METHOD']){
         }
     break;
     case 'PUT':
+        $_PUT=array();
         if(isset($_GET['idAdministrador'])){
             parse_str(file_get_contents("php://input"),$_PUT);
         }
         $Administrador = new Administradores(
-            $_GET['codigoAdministrador'],
-            $_PUT['nombre'],
-            $_PUT['id'],
-            $_PUT['correo'],
-            $_PUT['celular'],
-            $_PUT['targeta'],
-            $_POST['cargo'],
-            $_POST['sueldo']
+            $_PUT['codigoAdministrador'],
+            $_PUT['nombreAdministrador'],
+            $_PUT['identidadAdministrador'],
+            $_PUT['correoAdministrador'],
+            $_PUT['direccionAdministrador'],
+            $_PUT['celularAdministrador'],
+            $_PUT['cargoAdministrador'],
+            $_PUT['sueldoAdministrador']
         );
         $Administrador->actualizarAdministrador($cnn,$_GET['idAdministrador']);
     break;

@@ -1,4 +1,7 @@
 <?php
+
+use function GuzzleHttp\json_decode;
+
 header("Content-Type: application/json");
 include_once('../class/class-empresas.php');
 include_once('../class/class-database.php');
@@ -6,6 +9,7 @@ $db = new Database();
 $cnn = $db->getDB();
 switch($_SERVER['REQUEST_METHOD']){
     case 'POST':
+        //$_POST = json_decode(file_get_contents('php://input'),true);
         $empresa = new Empresas(
             $_POST['codigoCategoria'],
             $_POST['codigoEmpresa'],
@@ -30,7 +34,7 @@ switch($_SERVER['REQUEST_METHOD']){
     case 'PUT':
         $_PUT = array();
         if(isset($_GET['idEmpresa'])){
-            parse_str(file_get_contents("php://input"),$_PUT);
+            parse_str(file_get_contents('php://input'),$_PUT);
             $empresa = new Empresas(
                 $_PUT['codigoCategoria'],
                 $_GET['idEmpresa'],
@@ -39,7 +43,7 @@ switch($_SERVER['REQUEST_METHOD']){
                 $_PUT['correoEmpresa'],
                 $_PUT['telefonoEmpresa']
             );
-            $empresa->actualizarEmpresa($db,$_GET['idEmpresa']);
+            $empresa->actualizarEmpresa($cnn,$_GET['idEmpresa']);
         }
     break;
     case 'DELETE':

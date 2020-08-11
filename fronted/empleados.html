@@ -66,7 +66,7 @@
                                 <th scope="col">Id</th>
                                 <th scope="col">Correo</th>
                                 <th scope="col">Celular</th>
-                                <th scope="col">Contraseña</th>
+                                <th scope="col">Direccion</th>
                                 <th scope="col">Transporte</th>
                                 <th scope="col">Zona</th>
                                 <th scope="col">Sueldo</th>
@@ -99,7 +99,7 @@
                                 <th scope="col">Id</th>
                                 <th scope="col">Correo</th>
                                 <th scope="col">Celular</th>
-                                <th scope="col">Contraseña</th>
+                                <th scope="col">Direccion</th>
                                 <th scope="col">Cargo</th>
                                 <th scope="col">Sueldo</th>
                                 <th scope="col">Actualizar</th>
@@ -126,45 +126,50 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form>
+                    <input type="hidden" id="idRepartidor">
+                    <form id="formularioRepartidor">
                         <div class="form-group">
                             <label for="codigoRepartidor">Codigo Repartidor</label>
-                            <input id="codigoRepartidor" type="text" class="form-control">
+                            <input id="codigoRepartidor" name="codigoRepartidor" type="text" class="form-control">
                         </div>
                         <div class="form-group">
                             <label for="nombreRepartidor">Nombre</label>
-                            <input id="nombreRepartidor" type="text" class="form-control">
+                            <input id="nombreRepartidor" name="nombreRepartidor" type="text" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="identidadRepartidor">No. Identidad</label>
+                            <input id="identidadRepartidor" name="identidadRepartidor" type="text" class="form-control">
                         </div>
                         <div class="form-group">
                             <label for="correoRepartidor">Correo</label>
-                            <input id="correoRepartidor" type="text" class="form-control">
+                            <input id="correoRepartidor" name="correoRepartidor" type="text" class="form-control">
                         </div>
                         <div class="form-group">
-                            <label for="telefonoRepartidor">Celular</label>
-                            <input id="telefonoRepartidor" type="text" class="form-control">
+                            <label for="celularRepartidor">Celular</label>
+                            <input id="celularRepartidor" name="celularRepartidor" type="text" class="form-control">
                         </div>
                         <div class="form-group">
-                            <label for="direccionRepartidor">Password</label>
-                            <input id="direccionRepartidor" type="text" class="form-control">
+                            <label for="direccionRepartidor">Direccion</label>
+                            <input id="direccionRepartidor" name="direccionRepartidor" type="text" class="form-control">
                         </div>
                         <div class="form-group">
                             <label for="transporte">Trasnporte</label>
-                            <input id="transporte" type="text" class="form-control">
+                            <input id="transporteRepartidor" name="transporteRepartidor" type="text" class="form-control">
                         </div>
                         <div class="form-group">
                             <label for="zona">Zona</label>
-                            <input id="zona" type="text" class="form-control">
+                            <input id="zonaRepartidor" name="zonaRepartidor" type="text" class="form-control">
                         </div>
                         <div class="form-group">
-                            <label for="suelod">Sueldo</label>
-                            <input id="suelod" type="text" class="form-control">
+                            <label for="sueldo">Sueldo</label>
+                            <input name="sueldoRepartidor" id="sueldoRepartidor" type="text" class="form-control">
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                     <button type="button" class="btn btn-c1 cre-btn" onclick="crearRepartidor()">Agregar</button>
-                    <button type="button" class="btn btn-c1 act-btn" onclick="actualizarRepartidor()">Actualizar</button>
+                    <button type="button" class="btn btn-c1 act-btn" onclick="actualizarRepartidor($('#idRepartidor').val())">Actualizar</button>
                 </div>
             </div>
         </div>
@@ -180,41 +185,48 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form>
+                    <input type="hidden" id="idAdministrador">
+                    <form id="formularioAdmi">
                         <div class="form-group">
                             <label for="codigoAdministrador">Codigo Administrador</label>
-                            <input id="codigoAdministrador" type="text" class="form-control">
+                            <input name="codigoAdministrador" type="text" class="form-control" id="codigoAdministrador">
+                        </div>
+                        <div class="form-group">
+                            <label for="identidadAdministrador">Identidad</label>
+                            <input name="identidadAdministrador" type="text" class="form-control" id="identidadAdministrador">
                         </div>
                         <div class="form-group">
                             <label for="nombreAdministrador">Nombre</label>
-                            <input id="nombreAdministrador" type="text" class="form-control">
+                            <input name="nombreAdministrador" type="text" class="form-control" id="nombreAdministrador">
                         </div>
                         <div class="form-group">
                             <label for="correoAdministrador">Correo</label>
-                            <input id="correoAdministrador" type="text" class="form-control">
+                            <input name="correoAdministrador" type="text" class="form-control" id="correoAdministrador">
                         </div>
                         <div class="form-group">
-                            <label for="telefonoAdministrador">Celular</label>
-                            <input id="telefonoAdministrador" type="text" class="form-control">
+                            <label for="celularAdministrador">Celular</label>
+                            <input name="celularAdministrador" type="text" class="form-control" id="celularAdministrador">
                         </div>
                         <div class="form-group">
                             <label for="direccionAdministrador">Password</label>
-                            <input id="direccionAdministrador" type="text" class="form-control">
+                            <input name="direccionAdministrador" type="text" class="form-control" id="direccionAdministrador">
                         </div>
                         <div class="form-group">
                             <label for="cargo">Cargo</label>
-                            <input id="cargo" type="text" class="form-control">
+                            <input name="cargoAdministrador" type="text" class="form-control" id="cargoAdministrador">
                         </div>
                         <div class="form-group">
                             <label for="sueldo">Sueldo</label>
-                            <input id="sueldo" type="text" class="form-control">
+                            <input name="sueldoAdministrador" type="text" class="form-control" id="sueldoAdministrador">
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                    <button type="button" class="btn btn-c1 cre-btn">Agregar</button>
-                    <button type="button" class="btn btn-c1 act-btn">Actualizar</button>
+                    <button type="button" class="btn btn-c1 cre-btn2" onclick="crearAdministrador()">Agregar</button>
+                    <button type="button" class="btn btn-c1 act-btn2" onclick="actualizarAdministrador($('#idAdministrador').val())">
+                        Actualizar
+                    </button>
                 </div>
             </div>
         </div>

@@ -107,14 +107,15 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form>
+                    <input type="hidden" id="idEmpresa">
+                    <form id="formularioEmpresa">
                         <div class="form-group">
-                            <label for="codigoEmpresa">Nombre:</label>
-                            <input id="codigoEmpresa" type="text" class="form-control">
+                            <label for="codigoEmpresa">Codigo</label>
+                            <input name="codigoEmpresa" id="codigoEmpresa" type="text" class="form-control">
                         </div>
                         <div class="form-group">
                             <label for="categoriaEmpresa">Categoria</label>
-                            <select id="categoriaEmpresa" class="form-control">
+                            <select name="codigoCategoria" id="categoriaEmpresa" class="form-control">
                                 <option value="1">Farmacias</option>
                                 <option value="2">Tiendas</option>
                                 <option value="3">Super</option>
@@ -123,26 +124,26 @@
                         </div>
                         <div class="form-group">
                             <label for="nombreEmpresa">Nombre:</label>
-                            <input id="nombreEmpresa" type="text" class="form-control">
+                            <input name="nombreEmpresa" id="nombreEmpresa" type="text" class="form-control">
                         </div>
                         <div class="form-group">
                             <label for="correoEmpresa">Correo</label>
-                            <input id="correoEmpresa" type="text" class="form-control">
+                            <input name="correoEmpresa" id="correoEmpresa" type="text" class="form-control">
                         </div>
                         <div class="form-group">
                             <label for="direccionEmpresa">Direccion</label>
-                            <input id="direccionEmpresa" type="text" class="form-control">
+                            <input name="direccionEmpresa" id="direccionEmpresa" type="text" class="form-control">
                         </div>
                         <div class="form-group">
                             <label for="telefonoEmpresa">Telefono</label>
-                            <input id="telefonoEmpresa" type="text" class="form-control">
+                            <input name="telefonoEmpresa" id="telefonoEmpresa" type="text" class="form-control">
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                     <button id="cre-btn" type="button" class="btn btn-c1" onclick="crearEmpresa()">Agregar</button>
-                    <button id="act-btn" type="button" class="btn btn-c1" onclick="actualizarEmpresa()">Actualizar</button>
+                    <button id="act-btn" type="button" class="btn btn-c1" onclick="actualizarEmpresa($('#idEmpresa').val())">Actualizar</button>
                 </div>
             </div>
         </div>

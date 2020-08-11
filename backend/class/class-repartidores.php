@@ -5,29 +5,54 @@ class Repartidores extends Empleados{
     private $zona;
     private $transporte;
     
-    public function __construct($codigoRepartidor,$nombre, $id, $correo, $celular,$zona,$transporte,$sueldo)
+    public function __construct($codigoRepartidor,$nombre, $id, $correo,$direccion, $celular,$zona,$transporte,$sueldo)
     {
         $this->codigoRepartidor = $codigoRepartidor;
-        parent::__construct($nombre,$id,$correo,$celular,$sueldo);
+        parent::__construct($nombre,$id,$correo,$direccion,$celular,$sueldo);
         $this->zona = $zona;
         $this->transporte = $transporte;
     }
 
     public function crearRepartidor($db){
-
+        $repartidor = $this->getData();
+            $key =$db->getReference('Repartidores')->push($repartidor);
+            if($key->getKey()!= null){
+                echo '{"mensaje":"Registro Almacenado","key":"'.$key->getKey().'"}';
+            }else{
+                echo '{"mensaje":"Error Al Guardar Registro"}';
+            }
     }
-    public static function obtenerRepartidor($db,$idRepartidores){
-
+    public static function obtenerRepartidor($db,$idRepartidor){
+        $rep = $db->getReference('Repartidores')->getChild($idRepartidor)->getValue();
+        echo json_encode($rep);
     }
     public static function obtenerRepartidores($db){
         $rep = $db->getReference('Repartidores')->getSnapshot()->getValue();
         echo json_encode($rep);
     }
-    public function actualizarRepartidor($db,$idRepartidores){
-
+    public function actualizarRepartidor($db,$idRepartidor){
+        $key =$db->getReference('Repartidores')->getChild($idRepartidor)->set($this->getData());
+        if($key->getKey()!=null){
+            echo '{"mensaje":"Registro Actualizado","key":"'.$key->getKey().'"}';
+        }else{
+            echo '{"mensaje":"Error Al Actualizar Registro"}';
+        }
     }
-    public static function eliminarRepartidor($db,$idRepartidores){
+    public static function eliminarRepartidor($db,$idRepartidor){
+        $db->getReference('Repartidores')->getChild($idRepartidor)->remove();
+    }
 
+    public function getData(){
+            $repartidor['codigoRepartidor'] = $this->getCodigoRepartidor();
+            $repartidor['nombre'] = $this->getNombre();
+            $repartidor['id'] = $this->getId();
+            $repartidor['correo'] = $this->getCorreo();
+            $repartidor['direccion'] = $this->getDireccion();
+            $repartidor['celular'] = $this->getCelular();
+            $repartidor['zona'] = $this->getZona();
+            $repartidor['transporte'] = $this->getTransporte();
+            $repartidor['sueldo'] = $this->getSueldo();
+        return $repartidor;
     }
 
     public function getZona()

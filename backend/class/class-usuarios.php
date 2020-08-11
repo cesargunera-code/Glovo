@@ -6,7 +6,7 @@ abstract class Usuarios
         private $id;
         private $correo;
         private $celular;
-        
+
         public function __construct($nombre, $id, $correo, $celular)
         {
                 $this->nombre = $nombre;

@@ -39,16 +39,16 @@ class Empresas{
     public static function obtenerEmpresasPorCategoria($db,$idCategoria){
         $emp = $db->getReference('Empresas')->getSnapshot()->getValue();
         $cat = array();
-        for($i=0;$i<sizeof($emp);$i++){
-            if(in_array($idCategoria,$emp[$i])){
-                $cat[] = $emp[$i];
+        foreach ($emp as $clave => $valor) {
+            if(in_array($idCategoria,$valor)){
+                $cat[$clave] = $valor;
             }
         }
         echo json_encode($cat);
     }
 
     public function actualizarEmpresa($db,$idEmpresa){
-        $key =$db->getReference('Empresas')->getChild($idEmpresa)->set($this->getData);
+        $key =$db->getReference('Empresas')->getChild($idEmpresa)->set($this->getData());
         if($key->getKey()!=null){
             echo '{"mensaje":"Registro Actualizado","key":"'.$key->getKey().'"}';
         }else{
@@ -56,7 +56,12 @@ class Empresas{
         }
     }
     public static function eliminarEmpresa($db,$idEmpresa){ 
-        $db->getReference('Empresas')->getChild($idEmpresa)->remove();
+        $key =$db->getReference('Empresas')->getChild($idEmpresa)->remove();
+        if($key->getKey()!=null){
+            echo '{"mensaje":"Registro Eliminado","key":"'.$key->getKey().'"}';
+        }else{
+            echo '{"mensaje":"Error Al Eliminar Registro"}';
+        }
     }
     //obtener array con los datos
     public function getData(){
@@ -66,7 +71,6 @@ class Empresas{
         $empresa['direccion']=$this->direccion;
         $empresa['correo']=$this->correo;
         $empresa['telefono']=$this->telefono;
-        $empresa['productos']=$this->productos;
         return $empresa;
     }
     //GET AND SET
@@ -126,18 +130,6 @@ class Empresas{
     public function setCorreo($correo)
     {
         $this->correo = $correo;
-
-        return $this;
-    }
-
-    public function getProductos()
-    {
-        return $this->productos;
-    }
-
-    public function setProductos($productos)
-    {
-        $this->productos = $productos;
 
         return $this;
     }

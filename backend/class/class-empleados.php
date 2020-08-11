@@ -2,11 +2,13 @@
 include_once ('class-usuarios.php');
 abstract class Empleados extends Usuarios{
     private $sueldo;
+    private $direccion;
 
-    public function __construct($nombre, $id, $correo, $celular,$sueldo)
+    public function __construct($nombre, $id, $correo,$direccion, $celular,$sueldo)
     {
         parent::__construct($nombre,$id,$correo,$celular);
         $this->sueldo = $sueldo;
+        $this->direccion= $direccion;
     }
 
     public function getSueldo()
@@ -18,6 +20,16 @@ abstract class Empleados extends Usuarios{
     {
         $this->sueldo = $sueldo;
 
+        return $this;
+    }
+    public function getDireccion()
+    {
+        return $this->direccion;
+    }
+
+    public function setDireccion($direccion)
+    {
+        $this->direccion = $direccion;
         return $this;
     }
 }

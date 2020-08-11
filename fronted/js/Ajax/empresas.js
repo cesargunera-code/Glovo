@@ -1,16 +1,16 @@
     //GRUD EMPRESAS 
-let empresa = {};
+let empresa;
 const URLE = '../backend/api/empresas.php';
 
 //Agregar Empresa
 function crearEmpresa(){
-    obtenerDatosEmpresa();
+    empresa = $('#formularioEmpresa').serialize();
     axios({
         method: 'POST',
         url: URLE,
         reponseType: 'json',
         data: empresa
-    }).then(respuesta=>{console.log(respuesta)}).catch(error=>console.error(error));
+    }).then(respuesta=>{console.log(respuesta);verEmpresas();$('#modalAgregarEmpresa').modal('hide');}).catch(error=>console.error(error));
 }
 
 //Visualizar Empresa(s)
@@ -22,31 +22,32 @@ function verEmpresas(){
     }).then(function(respuesta){
         console.log(respuesta);
         document.querySelector("#tablaSocios").innerHTML=``;
-        respuesta.data.forEach(function(empresa,codigoEmpresa){
+        empresas = respuesta.data;
+        for(let indice in empresas){
             document.querySelector("#tablaSocios").innerHTML+=
             `<tr>
-                <td>${empresa.nombreEmpresa}</td>
-                <td>${empresa.direccion}</td>
-                <td>${empresa.telefono}</td>
-                <td>${empresa.correo}</td>
-                <td>${empresa.contacto}</td>
+                <td>${empresas[indice].nombreEmpresa}</td>
+                <td>${empresas[indice].direccion}</td>
+                <td>${empresas[indice].telefono}</td>
+                <td>${empresas[indice].correo}</td>
+                <td>NADA</td>
                 <td>
-                    <a class="btn btn-block btn-c1" style="cursor:pointer;" onclick="verProductosXEmpresa(${codigoEmpresa})">
+                    <a class="btn btn-block btn-c1" style="cursor:pointer;" onclick="verProductosXEmpresa('${indice}')">
                         <i class="zmdi zmdi-archive zmdi-hc-lg" style="color:white;"></i>
                     </a>
                 </td>
                 <td>
-                    <a class="btn btn-block btn-success" style="cursor:pointer;" onclick="habilitarEdicion(${codigoEmpresa})">
+                    <a class="btn btn-block btn-success" style="cursor:pointer;" onclick="habilitarEdicion('${indice}')">
                         <i class="zmdi zmdi-refresh zmdi-hc-lg" style="color:white;"></i>
                     </a>
                 </td>
                 <td>
-                    <a class="btn btn-block btn-danger" style="cursor:pointer;" onlick="eliminarEmpresa(${codigoEmpresa})">
+                    <a class="btn btn-block btn-danger" style="cursor:pointer;" onclick="eliminarEmpresa('${indice}')">
                         <i class="zmdi zmdi-delete zmdi-hc-lg" style="color:white;"></i>
                     </a>
                 </td>
             </tr>`;
-        });
+        }
     }
     ).catch(function(error){
         console.log(error);
@@ -67,25 +68,27 @@ function verEmpresa(idEmpresa){
 }
 
 function verEmpresasXCategoria(codigoCategoria){
-    trasladarScroll(0,650);
     axios({
         method: 'GET',
         url: URLE+`?idCategoria=${codigoCategoria}`,
         reponseType: 'json'
     }).then(function(respuesta){
-        console.log(respuesta);
         document.querySelector("#empresas").innerHTML=``;
-        respuesta.data.forEach(function(empresa,codigoEmpresa){
+        empresas = respuesta.data;
+        console.log(respuesta.data);
+        for(let indice in empresas){
             document.querySelector("#empresas").innerHTML+=
-            `<div class="col-3 mx-3 mb-5 rounded p-0" height: "200px; onclick="verProductosXEmpresa(${codigoCategoria},${codigoEmpresa})">
+            `<div class="col-3 mx-3 mb-5 rounded p-0""
+            onclick="verProductosXEmpresa(${empresas[indice].codigoCategoria},${empresas[indice].codigoEmpresa})">
                 <div class="card" style="width: 18rem;">
-                    <img class="card-img-top" style="cursor:pointer;" src="${empresa.imagen}" alt="Card image cap">
+                    <img class="card-img-top" style="cursor:pointer;" src="././resource/img/comida-img-2.webp" alt="Card image cap">
                     <div class="card-body pb-0">
-                        <h5 class="card-title">${empresa.nombreEmpresa}</h5>
+                        <h5 class="card-title">${empresas[indice].nombreEmpresa}</h5>
                     </div>
                 </div>
             </div>`;
-        });
+            trasladarScroll(0,650);
+        }
     }
     ).catch(function(error){
         console.log(error);
@@ -119,7 +122,7 @@ function verProductosXEmpresa(codigoCategoria,codigoEmpresa){
 }
 //Actualizar Empresa
 function actualizarEmpresa(idEmpresa){
-    obtenerDatosEmpresa();
+    empresa = $('#formularioEmpresa').serialize();
     axios({
         method: 'PUT',
         url: URLE+`?idEmpresa=${idEmpresa}`,
@@ -127,7 +130,8 @@ function actualizarEmpresa(idEmpresa){
         data:empresa
     }).then(function(respuesta){
         console.log(respuesta);
-        verEmpresa();
+        verEmpresas();
+        $('#modalAgregarEmpresa').modal('hide');
     }
     ).catch(function(error){
         console.error(error)
@@ -141,17 +145,19 @@ function eliminarEmpresa(idEmpresa){
         method: 'DELETE',
         url: URLE+`?idEmpresa=${idEmpresa}`,
         reponseType: 'json'
-    }).then(function(){
-
+    }).then(function(respuesta){
+        console.log(respuesta);
+        verEmpresas();
     }
-    ).catch(function(){
-
+    ).catch(function(error){
+        console.error(error);
     }
     );
 }
 
 //Otras Funciones
 function habilitarEdicion(idEmpresa){
+    $('#idEmpresa').val(idEmpresa);
     $('#modalAgregarEmpresa').modal('show');
     let datosEmpresa = verEmpresa(idEmpresa);
     intercalarBotones(true);
@@ -175,14 +181,4 @@ function intercalarBotones(x){
         document.querySelector('#act-btn').style.display= 'none';
         document.querySelector('#cre-btn').style.display= 'block';
     }
-}
-function obtenerDatosEmpresa(){
-    empresa={
-        codigoCategoria : document.querySelector('#categoriaEmpresa').value,
-        codigoEmpresa : document.querySelector('#codigoEmpresa').value,
-        nombreEmpresa : document.querySelector('#nombreEmpresa').value,
-        direccionEmpresa : document.querySelector('#direccionEmpresa').value,
-        correoEmpresa : document.querySelector('#correoEmpresa').value,
-        telefonoEmpresa : document.querySelector('#telefonoEmpresa').value,
-    };
 }
