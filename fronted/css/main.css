@@ -9,26 +9,34 @@
 }
 .btn-c1{
     background-color: #2abb9b !important;
-    color: white !important
+    color: white !important;
 }
 .btn-c1:hover{
     background-color: #00A082 !important;
-    color: white !important
+    color: white !important;
 }
 .btn-c2{
     background-color: #28967e !important;
-    color: white !important
+    color: white !important;
 }
 .btn-c2:hover{
     background-color: #078f76 !important;
-    color: white !important
+    color: white !important;
+}
+.btn-c3{
+    background-color:  #FFC244 !important;
+    color: white !important;
+}
+.btn-c3:hover{
+    background-color: #FFC244 !important;
+    color: rgb(235, 235, 235) !important;
 }
 /* estilos para fonts*/
 .font-1{
     font-family: 'Ramabhadra', sans-serif !important;
 }
-p.font-1{
-    font-family: Verdana, Geneva, Tahoma, sans-serif !important;
+h6.font-1{
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif !important;
 }
 input{
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif !important;

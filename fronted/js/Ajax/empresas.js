@@ -5,12 +5,18 @@ const URLE = '../backend/api/empresas.php';
 //Agregar Empresa
 function crearEmpresa(){
     empresa = $('#formularioEmpresa').serialize();
+    $('#modalAgregarEmpresa').modal('hide');
     axios({
         method: 'POST',
         url: URLE,
         reponseType: 'json',
         data: empresa
-    }).then(respuesta=>{console.log(respuesta);verEmpresas();$('#modalAgregarEmpresa').modal('hide');}).catch(error=>console.error(error));
+    }).then(respuesta=>{
+        console.log(respuesta);
+        verEmpresas();
+    }).catch(error=>{
+        console.error(error);
+    });
 }
 
 //Visualizar Empresa(s)
@@ -32,7 +38,7 @@ function verEmpresas(){
                 <td>${empresas[indice].correo}</td>
                 <td>NADA</td>
                 <td>
-                    <a class="btn btn-block btn-c1" style="cursor:pointer;" onclick="verProductosXEmpresa('${indice}')">
+                    <a class="btn btn-block btn-c1" style="cursor:pointer;" onclick="verProductos('${empresas[indice].codigoEmpresa}')">
                         <i class="zmdi zmdi-archive zmdi-hc-lg" style="color:white;"></i>
                     </a>
                 </td>
@@ -56,7 +62,7 @@ function verEmpresas(){
 }
 
 function verEmpresa(idEmpresa){
-    return axios({
+    return axios({  
         method: 'GET',
         url: URLE+`?idEmpresa=${idEmpresa}`,
         reponseType: 'json'}
@@ -68,26 +74,27 @@ function verEmpresa(idEmpresa){
 }
 
 function verEmpresasXCategoria(codigoCategoria){
+    $('#empresas').empty();
     axios({
         method: 'GET',
         url: URLE+`?idCategoria=${codigoCategoria}`,
         reponseType: 'json'
     }).then(function(respuesta){
         document.querySelector("#empresas").innerHTML=``;
+        trasladarScroll(0,650);
         empresas = respuesta.data;
         console.log(respuesta.data);
         for(let indice in empresas){
             document.querySelector("#empresas").innerHTML+=
             `<div class="col-3 mx-3 mb-5 rounded p-0""
-            onclick="verProductosXEmpresa(${empresas[indice].codigoCategoria},${empresas[indice].codigoEmpresa})">
+            onclick="verProductosXEmpresa(${empresas[indice].codigoEmpresa})">
                 <div class="card" style="width: 18rem;">
                     <img class="card-img-top" style="cursor:pointer;" src="././resource/img/comida-img-2.webp" alt="Card image cap">
                     <div class="card-body pb-0">
-                        <h5 class="card-title">${empresas[indice].nombreEmpresa}</h5>
+                        <h5 class="card-title font-1">${empresas[indice].nombreEmpresa}</h5>
                     </div>
                 </div>
             </div>`;
-            trasladarScroll(0,650);
         }
     }
     ).catch(function(error){
@@ -96,33 +103,10 @@ function verEmpresasXCategoria(codigoCategoria){
     );
 }
 
-function verProductosXEmpresa(codigoCategoria,codigoEmpresa){
-    $("#modalProductos").modal('show');
-    let empresa = categorias[codigoCategoria].empresas[codigoEmpresa];
-    document.querySelector('#productos').innerHTML=``;
-    document.querySelector('#tituloEmpresa').innerHTML= empresa.nombreEmpresa;
-    empresa.productos.forEach(function(producto,codigoProducto){
-        document.querySelector('#productos').innerHTML+=
-        `<div class="card col-4 p-0 m-1" style="max-width:30%!important;">
-            <img class="card-img-top" height="250px" src="${producto.imagen}">
-            <div class="card-body text-left">
-                <h5 class="card-title">${producto.nombreProducto}</h5>
-                    <p class="font-1">
-                        ${producto.descripcion}
-                    </p>
-                    <hr>
-                    <p class="card-text">
-                        <small class="text-muted">
-                            $${producto.precio}
-                        </small>
-                    </p>
-            </div>
-        </div>`;
-    });
-}
 //Actualizar Empresa
 function actualizarEmpresa(idEmpresa){
     empresa = $('#formularioEmpresa').serialize();
+    $('#modalAgregarEmpresa').modal('hide');
     axios({
         method: 'PUT',
         url: URLE+`?idEmpresa=${idEmpresa}`,
@@ -131,7 +115,6 @@ function actualizarEmpresa(idEmpresa){
     }).then(function(respuesta){
         console.log(respuesta);
         verEmpresas();
-        $('#modalAgregarEmpresa').modal('hide');
     }
     ).catch(function(error){
         console.error(error)
@@ -158,12 +141,13 @@ function eliminarEmpresa(idEmpresa){
 //Otras Funciones
 function habilitarEdicion(idEmpresa){
     $('#idEmpresa').val(idEmpresa);
-    $('#modalAgregarEmpresa').modal('show');
-    let datosEmpresa = verEmpresa(idEmpresa);
+    let datosEmpresa = verEmpresa(idEmpresa);  
+    console.log(datosEmpresa); 
     intercalarBotones(true);
+    $('#modalAgregarEmpresa').modal('show');
     datosEmpresa.then((datos)=>{
-        document.querySelector('#categoriaEmpresa').value = datos.codigoCategoria;
         document.querySelector('#codigoEmpresa').value = datos.codigoEmpresa;
+        document.querySelector('#categoriaEmpresa').value = datos.codigoCategoria;
         document.querySelector('#nombreEmpresa').value = datos.nombreEmpresa;
         document.querySelector('#direccionEmpresa').value = datos.direccion;
         document.querySelector('#correoEmpresa').value = datos.correo;

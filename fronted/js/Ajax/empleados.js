@@ -17,8 +17,8 @@ function verRepartidores(){
                     document.querySelector("#tablaRepartidores").innerHTML+=
                     `<tr>
                     <td>${repartidor[indice].nombre}</td>
-                    <td>${repartidor[indice].id}</td>
                     <td>${repartidor[indice].correo}</td>
+                    <td>${repartidor[indice].id}</td>
                     <td>${repartidor[indice].celular}</td>
                     <td>${repartidor[indice].direccion}</td>
                     <td>${repartidor[indice].transporte}</td>
@@ -52,15 +52,20 @@ function verRepartidor(idRepartidor){
 }
 function crearRepartidor(){
     empleado = $('#formularioRepartidor').serialize();
+    $('#modalRepartidores').modal('hide');
     axios({
         method: 'POST',
         url: URLR,
         reponseType: 'json',
         data: empleado
-    }).then(respuesta=>{console.log(respuesta);verRepartidores();$('#modalRepartidor').modal('hide');}).catch(error=>console.error(error));
+    }).then(respuesta=>{
+        verRepartidores();
+    }).catch(error=>console.error(error));
+    
 }
 function actualizarRepartidor(idRepartidor){
     repartidor= $('#formularioRepartidor').serialize();
+    $('#modalRepartidores').modal('hide');
     axios({
         method: 'PUT',
         url: URLR+`?idRepartidor=${idRepartidor}`,
@@ -69,7 +74,6 @@ function actualizarRepartidor(idRepartidor){
     }).then(function(respuesta){
         console.log(respuesta);
         verRepartidores();
-        $('#modalRepartidores').modal('hide');
     }
     ).catch(function(error){
         console.error(error)
@@ -93,10 +97,12 @@ function eliminarRepartidor(idRepartidor){
 function habilitarEdicionRep(idRepartidor){
     $('#idRepartidor').val(idRepartidor);
     let datosRepartidor = verRepartidor(idRepartidor);
+    $('#modalRepartidores').modal('show');
     console.log(datosRepartidor)
     datosRepartidor.then((datos)=>{
         document.querySelector('#codigoRepartidor').value = datos.codigoRepartidor;
         document.querySelector('#nombreRepartidor').value = datos.nombre;
+        document.querySelector('#passwordRepartidor').value = datos.password;
         document.querySelector('#identidadRepartidor').value = datos.id;
         document.querySelector('#correoRepartidor').value = datos.correo;
         document.querySelector('#celularRepartidor').value = datos.celular;
@@ -106,7 +112,7 @@ function habilitarEdicionRep(idRepartidor){
         document.querySelector('#sueldoRepartidor').value = datos.sueldo;
     });
     intercalarBotones(true, 'Repartidor');
-    $('#modalRepartidores').modal('show');
+    
 }
 
 //GRUD ADMINISTRADORES
@@ -124,8 +130,8 @@ function verAdministradores(){
                 document.querySelector("#tablaAdministradores").innerHTML+=
                 `<tr>
                     <td>${administrador[indice].nombre}</td>
+                    <td>${administrador[indice].correo}</td>    
                     <td>${administrador[indice].id}</td>
-                    <td>${administrador[indice].correo}</td>
                     <td>${administrador[indice].celular}</td>
                     <td>${administrador[indice].direccion}</td>
                     <td>${administrador[indice].cargo}</td>
@@ -153,6 +159,7 @@ function verAdministrador(idAdministrador){
         url: URLA+`?idAdministrador=${idAdministrador}`,
         reponseType: 'json'
     }).then((respuesta)=>{
+        console.log(respuesta);
         return respuesta.data;
     }).catch((error)=>{
             console.error(error);
@@ -160,15 +167,17 @@ function verAdministrador(idAdministrador){
 }
 function crearAdministrador(){
     administrador = $('#formularioAdmi').serialize();
+    $('#modalAdministradores').modal('hide');
     axios({
         method: 'POST',
         url: URLA,
         reponseType: 'json',
         data: administrador
-    }).then(respuesta=>{console.log(respuesta);verAdministradores();$('#modalAdministradores').modal('hide');}).catch(error=>console.error(error));
+    }).then(respuesta=>{console.log(respuesta);verAdministradores();}).catch(error=>console.error(error));
 }
 function actualizarAdministrador(idAdministrador){
     administrador= $('#formularioAdmi').serialize();
+    $('#modalAdministradores').modal('hide');
     console.log(administrador);
     axios({
         method: 'PUT',
@@ -178,7 +187,6 @@ function actualizarAdministrador(idAdministrador){
     }).then(function(respuesta){
         console.log(respuesta);
         verAdministradores();
-        $('#modalAdministradores').modal('hide');
     }
     ).catch(function(error){
         console.error(error)
@@ -202,10 +210,12 @@ function eliminarAdministrador(idAdministrador){
 function habilitarEdicionAdm(idAdministrador){
     $('#idAdministrador').val(idAdministrador);
     let datosAdministrador = verAdministrador(idAdministrador);
-    console.log(datosAdministrador)
+    console.log(datosAdministrador);
+    $('#modalAdministradores').modal('show');
     datosAdministrador.then((datos)=>{
         document.querySelector('#codigoAdministrador').value= datos.codigoAdministrador;
         document.querySelector('#nombreAdministrador').value= datos.nombre;
+        document.querySelector('#passwordAdministrador').value= datos.password;
         document.querySelector('#identidadAdministrador').value= datos.id;
         document.querySelector('#correoAdministrador').value= datos.correo;
         document.querySelector('#celularAdministrador').value= datos.celular;
@@ -214,7 +224,6 @@ function habilitarEdicionAdm(idAdministrador){
         document.querySelector('#sueldoAdministrador').value= datos.sueldo;
     });
     intercalarBotones(true, 'Administrador');
-    $('#modalAdministradores').modal('show');
 }
 function intercalarBotones(x,nombre){
     if(x){
@@ -223,11 +232,15 @@ function intercalarBotones(x,nombre){
         document.querySelector('.cre-btn').style.display= 'none';
         document.querySelector('.act-btn2').style.display= 'block';
         document.querySelector('.cre-btn2').style.display= 'none';
+        $('#contraR').hide();
+        $('#contraA').hide();
     }else{
         document.querySelector('#titulo'+nombre).innerHTML='Agregar '+nombre;
         document.querySelector('.act-btn').style.display= 'none';
         document.querySelector('.cre-btn').style.display= 'block';
         document.querySelector('.act-btn2').style.display= 'none';
         document.querySelector('.cre-btn2').style.display= 'block';
+        $('#contraR').show();
+        $('#contraA').show();
     }
 }

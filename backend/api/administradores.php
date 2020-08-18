@@ -7,10 +7,11 @@ $cnn = $db->getDB();
 switch($_SERVER['REQUEST_METHOD']){
     case 'POST':
         $administrador = new Administradores(
-            $_POST['codigoAdministrador'],
+            'null',
             $_POST['nombreAdministrador'],
-            $_POST['identidadAdministrador'],
             $_POST['correoAdministrador'],
+            $_POST['passwordAdministrador'],
+            $_POST['identidadAdministrador'],
             $_POST['direccionAdministrador'],
             $_POST['celularAdministrador'],
             $_POST['cargoAdministrador'],
@@ -33,8 +34,9 @@ switch($_SERVER['REQUEST_METHOD']){
         $Administrador = new Administradores(
             $_PUT['codigoAdministrador'],
             $_PUT['nombreAdministrador'],
-            $_PUT['identidadAdministrador'],
             $_PUT['correoAdministrador'],
+            $_PUT['passwordAdministrador'],
+            $_PUT['identidadAdministrador'],
             $_PUT['direccionAdministrador'],
             $_PUT['celularAdministrador'],
             $_PUT['cargoAdministrador'],

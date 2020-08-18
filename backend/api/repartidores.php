@@ -7,10 +7,11 @@ $cnn = $db->getDB();
 switch($_SERVER['REQUEST_METHOD']){
     case 'POST':
         $repartidor = new Repartidores(
-            $_POST['codigoRepartidor'],
+            'null',
             $_POST['nombreRepartidor'],
-            $_POST['identidadRepartidor'],
             $_POST['correoRepartidor'],
+            $_POST['passwordRepartidor'],
+            $_POST['identidadRepartidor'],
             $_POST['direccionRepartidor'],
             $_POST['celularRepartidor'],
             $_POST['zonaRepartidor'],
@@ -33,8 +34,9 @@ switch($_SERVER['REQUEST_METHOD']){
             $repartidor = new Repartidores(
                 $_PUT['codigoRepartidor'],
                 $_PUT['nombreRepartidor'],
-                $_PUT['identidadRepartidor'],
                 $_PUT['correoRepartidor'],
+                $_PUT['passwordRepartidor'],
+                $_PUT['identidadRepartidor'],
                 $_PUT['direccionRepartidor'],
                 $_PUT['celularRepartidor'],
                 $_PUT['zonaRepartidor'],

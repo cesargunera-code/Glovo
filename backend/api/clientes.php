@@ -6,15 +6,19 @@ $db = new Database();
 $cnn = $db->getDB();
 switch($_SERVER['REQUEST_METHOD']){
     case 'POST':
-        $cliente = new Clientes(
-            $_POST['codigoCliente'],
-            $_POST['nombre'],
-            $_POST['id'],
-            $_POST['correo'],
-            $_POST['celular'],
-            $_POST['targeta']
-        );
-        $cliente->crearCliente($cnn);
+        if(isset($_GET['accion']) && $_GET['accion']=='login'){
+            Clientes::login($_POST['tipoUsuario'],$_POST['email'],$_POST['password'],$cnn);
+        }else{
+            $cliente = new Clientes(
+                'pendiente',
+                $_POST['emailCliente'],
+                $_POST['passwordCliente'],
+                'pendiente',
+                'pendiente',
+                'pendiente'
+            );
+            $cliente->registrarCliente($cnn);
+        }
     break;
     case 'GET':
         if(isset($_GET['idCliente'])){
@@ -28,12 +32,12 @@ switch($_SERVER['REQUEST_METHOD']){
             parse_str(file_get_contents("php://input"),$_PUT);
         }
         $cliente = new Clientes(
-            $_GET['codigoCliente'],
-            $_PUT['nombre'],
-            $_PUT['id'],
-            $_PUT['correo'],
-            $_PUT['celular'],
-            $_PUT['targeta']
+            $_PUT['nombreCliente'],
+            $_PUT['emailCliente'],
+            $_PUT['passwordCliente'],
+            $_PUT['identidadCliente'],
+            $_PUT['celularCliente'],
+            $_PUT['tarjetaCliente']
         );
         $cliente->actualizarCliente($cnn,$_GET['idCliente']);
     break;

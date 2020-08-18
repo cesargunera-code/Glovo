@@ -7,20 +7,23 @@ $cnn = $db->getDB();
 switch($_SERVER['REQUEST_METHOD']){
     case 'POST':
         $producto = new Productos(
-            $_POST['codigoProducto'],
+            'null',
             $_POST['codigoEmpresa'],
             $_POST['nombreProducto'],
-            $_POST['descripcion'],
-            $_POST['precio']
+            $_POST['descripcionProducto'],
+            $_POST['imagenProducto'],
+            $_POST['precioProducto']
         );
         $producto->crearProducto($cnn);
     break;
     case 'GET':
-        if(isset($_GET['idEmpresa']) && $_GET['idProducto']){
-            Productos::obtenerProductoXEmpresa($cnn,$_GET['idEmpresa'],$_GET['idProducto']);
+        if(isset($_GET['idProducto'])){
+            Productos::obtenerProducto($cnn,$_GET['idProducto']);
         }else{
-            if(isset($_GET['idEmpresa'])){
+            if(isset($_GET['idEmpresa'])){  
                 Productos::obtenerProductosXEmpresa($cnn,$_GET['idEmpresa']);
+            }else{
+                Productos::obtenerProductos($cnn);
             }
         }
     break;
@@ -29,16 +32,17 @@ switch($_SERVER['REQUEST_METHOD']){
             parse_str(file_get_contents("php://input"),$_PUT);
         }
         $producto = new Productos(
-            $_GET['idProducto'],
+            $_PUT['codigoProducto'],
             $_PUT['codigoEmpresa'],
             $_PUT['nombreProducto'],
-            $_PUT['descripcion'],
-            $_PUT['precio']
+            $_PUT['descripcionProducto'],
+            $_PUT['imagenProducto'],
+            $_PUT['precioProducto']
         );
         $producto->actualizarProducto($cnn,$_GET['idProducto']);
     break;
     case 'DELETE':
-        Productos::eliminarProducto($cnn,$_GET['idEmpresa']);
+        Productos::eliminarProducto($cnn,$_GET['idProducto']);
     break;
 }
 ?>

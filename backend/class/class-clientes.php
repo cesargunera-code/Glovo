@@ -5,13 +5,22 @@ class Clientes extends Usuarios
     private $codigoCliente;
     private $targeta = array();
 
-    public function __construct($codigoCliente,$nombre, $id, $correo, $celular,$targeta)
+    public function __construct($nombre, $correo,$password, $id, $celular,$targeta)
     {
-        $this->codigoCliente = $codigoCliente;
-        parent::__construct($nombre,$id,$correo,$celular);
+        parent::__construct($nombre,$correo,$password,$id,$celular);
         $this->targeta = $targeta;
     }
+    public function registrarCliente($db){
+        $this->obtenerUltimoCodigo($db);
+        $key =$db->getReference('Clientes')->push($this->getData());
+        if($key->getKey()!= null){
+            echo '{"mensaje":"Registro Almacenado","key":"'.$key->getKey().'"}';
+        }else{
+            echo '{"mensaje":"Error Al Guardar Registro"}';
+        }
+    }
     public function crearCliente($db){
+        $this->obtenerUltimoCodigo($db);
         $cliente = $this->getData();
         $key =$db->getReference('Clientes')->push($cliente);
         if($key->getKey()!= null){
@@ -20,14 +29,17 @@ class Clientes extends Usuarios
             echo '{"mensaje":"Error Al Guardar Registro"}';
         }
     }
+
     public static function obtenerClientes($db){
         $cli = $db->getReference('Clientes')->getSnapshot()->getValue();
         echo json_encode($cli);
     }
+
     public static function obtenerCliente($db,$idCliente){
         $Cliente = $db->getReference('Cliente')->getChild($idCliente)->getValue();
         echo json_encode($Cliente);
     }
+
     public function actualizarCliente($db,$idCliente){
         $key =$db->getReference('Clientes')->getChild($idCliente)->set($this->getData());
         if($key->getKey()!=null){
@@ -36,19 +48,29 @@ class Clientes extends Usuarios
             echo '{"mensaje":"Error Al Actualizar Registro"}';
         }
     }
+
     public static function eliminarCliente($db,$idCliente){
         $db->getReference('Clientes')->getChild($idCliente)->remove();
     }
-
     public function getData(){
         $cliente['codigoCliente'] = $this->getCodigoCliente();
         $cliente['nombre'] = $this->getNombre();
-        $cliente['id'] = $this->getId();
         $cliente['correo'] = $this->getCorreo();
+        $cliente['password'] = password_hash($this->getPassword(),PASSWORD_DEFAULT);
+        $cliente['id'] = $this->getId();
         $cliente['celular'] = $this->getCelular();
         $cliente['targeta'] = $this->getTargeta();
-    return $cliente;
-}
+        $cliente['privilegios'] = 1;
+        return $cliente;
+    }
+
+    public function obtenerUltimoCodigo($db){
+        $clientes= $db->getReference('Clientes')->getSnapshot()->getValue();
+        $ultimoCliente = end($clientes);
+        $ultimoCodigoCliente = (integer)$ultimoCliente['codigoCliente'];
+        $ultimoCodigoCliente++;
+        $this->setCodigoCliente($ultimoCodigoCliente);
+    }
 
     public function getCodigoCliente()
     {

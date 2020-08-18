@@ -4,10 +4,9 @@ class Administradores extends Empleados{
     private $codigoAdministrador;
     private $cargo;
 
-    public function __construct($codigoAdministrador,$nombre, $id, $correo,$direccion,$celular, $cargo,$sueldo)
-    {
+    public function __construct($codigoAdministrador,$nombre,$correo,$password,$id,$direccion,$celular,$cargo,$sueldo){
         $this->codigoAdministrador = $codigoAdministrador;
-        parent::__construct($nombre,$id,$correo,$direccion,$celular,$sueldo);
+        parent::__construct($nombre,$correo,$password,$id,$direccion,$celular,$sueldo);
         $this->cargo = $cargo;
     }
     public function crearAdministrador($db){
@@ -41,16 +40,26 @@ class Administradores extends Empleados{
 
     
     public function getData(){
-        $administrador['codigoAdministrador'] = $this->getCodigoAdmnistrador();
+        $administrador['codigoAdministrador'] = $this->getCodigoAdministrador();
         $administrador['nombre'] = $this->getNombre();
         $administrador['id'] = $this->getId();
         $administrador['correo'] = $this->getCorreo();
+        $administrador['password'] = password_hash($this->getPassword(),PASSWORD_DEFAULT);
         $administrador['direccion'] = $this->getDireccion();
         $administrador['celular'] = $this->getCelular();
         $administrador['sueldo'] = $this->getSueldo();
         $administrador['cargo'] = $this->getCargo();
-    return $administrador;
-}
+        $administrador['privilegios']=3;
+        return $administrador;
+    }
+
+    public function obtenerUltimoCodigo($db){
+        $administradores= $db->getReference('Administradores')->getSnapshot()->getValue();
+        $ultimoAdministrador = end($administradores);
+        $ultimoCodigoAdministrador = (integer)$ultimoAdministrador['codigoAdministrador'];
+        $ultimoCodigoAdministrador++;
+        $this->setCodigoAdministrador($ultimoCodigoAdministrador);
+    }
 
     public function getCargo()
     {

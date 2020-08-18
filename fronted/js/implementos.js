@@ -1,10 +1,3 @@
-document.querySelector('head').innerHTML+=
-`<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="X-UA-Compatible" content="ie=edge">
-<link rel="stylesheet" type="text/css" media="screen" href="css/bootstrap.min.css" />
-<link rel="stylesheet" href="css/material-design-iconic-font.css">
-<link rel="stylesheet" href="css/main.css">`;
 document.querySelector('footer').innerHTML+=
 `<div class="row px-5">
 <div class="col-2">
@@ -86,39 +79,5 @@ function trasladarScroll(x,y){
         behavior: 'smooth'
     });
 }
-var categorias = [];
-function crearEmpresasJSONS(){
-    let nombresCategoria= ["Farmacias","Tiendas","Super","Express","Comidas"]
-    for(let i=0;i<nombresCategoria.length;i++){
-        let categoria = {
-            "codigoCategoria": (i+1),
-            "nombreCategoria":nombresCategoria[i],
-            "empresas":[]
-        };
-        for(let j=0;j<9 ;j++){
-            let empresa = {
-                "codigoEmpresa": (j+1),
-                "nombreEmpresa": "empresa"+(j+1),
-                "direccion": "direccion"+(j+1),
-                "telefono": "telefono"+(j+1),
-                "contacto": "contacto"+(j+1),
-                "correo": `empresa${j+1}@empresa.com`,
-                "imagen": "resource/img/img-categorias/comida.webp",
-                "productos": []
-            };
-            for(let z=0;z<8;z++){
-                let producto = {
-                    "codigoProducto": (z+1),
-                    "nombreProducto": "producto"+(z+1),
-                    "descripcion": "descripcion"+(z+1),
-                    "imagen": `resource/img/img-productos/img-${z+1}.jpg`,
-                    "precio": 99+i+z+j
-                }
-                empresa.productos.push(producto);
-            }
-            categoria.empresas.push(empresa)
-        }
-        categorias.push(categoria);
-    }
-}
-crearEmpresasJSONS();
+
+

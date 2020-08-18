@@ -7,10 +7,10 @@ class Empresas{
     private $correo;
     private $telefono;
 
-    public function __construct($codigoCategoria, $codigoEmpresa,$nombreEmpresa,$direccion,$correo,$telefono)
+    public function __construct($codigoEmpresa,$codigoCategoria,$nombreEmpresa,$direccion,$correo,$telefono)
     {
+        $this->codigoEmpresa = $codigoEmpresa;
         $this->codigoCategoria=$codigoCategoria;
-        $this->codigoEmpresa=$codigoEmpresa; 
         $this->nombreEmpresa=$nombreEmpresa; 
         $this->direccion=$direccion;
         $this->correo=$correo;
@@ -18,14 +18,16 @@ class Empresas{
     }
     //GRUD
     public function crearEmpresa($db){
-            $empresa = $this->getData();
-            $key =$db->getReference('Empresas')->push($empresa);
-            if($key->getKey()!= null){
-                echo '{"mensaje":"Registro Almacenado","key":"'.$key->getKey().'"}';
-            }else{
-                echo '{"mensaje":"Error Al Guardar Registro"}';
-            }
+        $this->obtenerUltimoCodigo($db);
+        $empresa = $this->getData();
+        $key =$db->getReference('Empresas')->push($empresa);
+        if($key->getKey()!= null){
+            echo '{"mensaje":"Registro Almacenado","key":"'.$key->getKey().'"}';
+        }else{
+            echo '{"mensaje":"Error Al Guardar Registro"}';
+        }
     }
+
     public static function obtenerEmpresas($db){
         $emp = $db->getReference('Empresas')->getSnapshot()->getValue();
         echo json_encode($emp);
@@ -40,7 +42,7 @@ class Empresas{
         $emp = $db->getReference('Empresas')->getSnapshot()->getValue();
         $cat = array();
         foreach ($emp as $clave => $valor) {
-            if(in_array($idCategoria,$valor)){
+            if($idCategoria==$valor['codigoCategoria']){
                 $cat[$clave] = $valor;
             }
         }
@@ -73,6 +75,16 @@ class Empresas{
         $empresa['telefono']=$this->telefono;
         return $empresa;
     }
+
+    //obtener ultimo codigo
+    public function obtenerUltimoCodigo($db){
+        $empresas= $db->getReference('Empresas')->getSnapshot()->getValue();
+        $ultimoEmpresa = end($empresas);
+        $ultimoCodigoEmpresa = (integer)$ultimoEmpresa['codigoEmpresa'];
+        $ultimoCodigoEmpresa++;
+        $this->setCodigoEmpresa($ultimoCodigoEmpresa);
+    }
+    
     //GET AND SET
     public function getCodigoCategoria()
     {
@@ -146,4 +158,3 @@ class Empresas{
         return $this;
     }
 }
-?>

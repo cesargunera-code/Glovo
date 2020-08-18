@@ -1,7 +1,8 @@
 const URLC = '../backend/api/clientes.php';
 
-function crearCliente(){
+function registrarCliente(){
     let cliente = $('#formularioCliente').serialize();
+    $('#modalRegistrarse').modal('hide');
     axios({
         method: 'POST',
         url: URLC,
@@ -10,7 +11,7 @@ function crearCliente(){
     }).then(respuesta=>{
         console.log(respuesta);
     }).catch(error=>{
-        console.error(error());
+        console.error(error);
     });
 }
 function verClientes(){
@@ -21,23 +22,27 @@ function verClientes(){
         reponseType: 'json'
     }).then((respuesta)=>{
         console.log(respuesta);
-        respuesta.data.forEach(function(cliente,codigoCliente){
+        let clientes = respuesta.data;
+        for(let indice in clientes){
             document.querySelector("#tablaClientes").innerHTML+=
             `<tr>
-                <td>${cliente.nombre}</td>
-                <td>${cliente.id}</td>
-                <td>${cliente.correo}</td>
-                <td>${cliente.celular}</td>
-                <td>${cliente.contrasena}</td>
+                <td>${clientes[indice].nombre}</td>
+                <td>${clientes[indice].correo}</td>
+                <td>${clientes[indice].password}</td>
+                <td>${clientes[indice].id}</td>
+                <td>${clientes[indice].celular}</td>
                 <td><a class="btn btn-lg btn-c1"><i class="zmdi zmdi-card"></i></a></td>
                 <td><a class="btn btn-lg btn-c1"><i class="zmdi zmdi-pin"></i></a></td>
                 <td><a class="btn btn-lg btn-success"><i class="zmdi zmdi-refresh" style="color:white;"></i></a></td>
                 <td><a class="btn btn-lg btn-danger"><i class="zmdi zmdi-delete" style="color:white;"></i></a></td>
             </tr>`;
-        });
+        }
     }).catch((error)=>{
         console.log(error);
     });
+}
+function verCliente(idCliente){
+
 }
 function actualizarCliente(){
 

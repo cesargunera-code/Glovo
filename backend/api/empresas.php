@@ -11,8 +11,8 @@ switch($_SERVER['REQUEST_METHOD']){
     case 'POST':
         //$_POST = json_decode(file_get_contents('php://input'),true);
         $empresa = new Empresas(
+            "null",
             $_POST['codigoCategoria'],
-            $_POST['codigoEmpresa'],
             $_POST['nombreEmpresa'],
             $_POST['direccionEmpresa'],
             $_POST['correoEmpresa'],
@@ -36,8 +36,8 @@ switch($_SERVER['REQUEST_METHOD']){
         if(isset($_GET['idEmpresa'])){
             parse_str(file_get_contents('php://input'),$_PUT);
             $empresa = new Empresas(
+                $_PUT['codigoEmpresa'],
                 $_PUT['codigoCategoria'],
-                $_GET['idEmpresa'],
                 $_PUT['nombreEmpresa'],
                 $_PUT['direccionEmpresa'],
                 $_PUT['correoEmpresa'],
