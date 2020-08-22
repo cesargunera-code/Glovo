@@ -7,15 +7,18 @@ function agregarProducto(idProducto){
 //agregamos un pedido a la orden del usuario
 function agregarALaOrden(){
     let datosOrden = $('#formularioOrden').serialize();
-    $('#modalProductos').modal('hide');
-    $('#modalAgregarProducto').modal('hide');
+    $('#btnOrd').hide();
+    $('#restOrd').show();
     axios({
         method: 'POST',
         url: URLO,
         responseType: 'json',
         data: datosOrden
     }).then((respuesta)=>{
-        $('#modalProductos').modal('show');
+        $('#modalProductos').modal('hide');
+        $('#modalAgregarProducto').modal('hide');
+        Swal.fire('Pedido Agregado','','success');
+        //$('#modalProductos').modal('show');
         console.log(respuesta);
     }).catch(error=>{
         console.error(error);

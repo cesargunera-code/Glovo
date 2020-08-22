@@ -193,7 +193,17 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary btn-radius" data-dismiss="modal">Cancelar</button>
-                        <button type="button" class="btn btn-c1 btn-radius" onclick="agregarALaOrden()">Aceptar</button>
+                        <button id="btnOrd" type="button" class="btn btn-c1 btn-radius" 
+                        onclick="agregarALaOrden()">
+                        Aceptar
+                        </button>
+
+                        <button id="restOrd"  type="button" 
+                        class="btn btn-c1 btn-radius" style="color:white; display:none;"
+                        onclick="agregarALaOrden()">
+                        <i class="zmdi zmdi-replay zmdi-hc-spin-reverse zmdi-hc"></i>
+                        Procesando...
+                        </button>
                     </div>
                 </div>
             </div>

@@ -108,6 +108,7 @@
     <script src="js/popper.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>w
     <script src="js/main.js"></script>
     <script src="js/implementos.js"></script>
     <script src="js/controladores/clientes.js"></script>
