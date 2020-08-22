@@ -1,6 +1,14 @@
+<?php 
+    require_once('../backend/class/class-login.php');
+    require_once('../backend/class/class-database.php');
+    $database = new Database();
+    $db = $database->getDB();
+    if(!Login::verificarAutentificacion($db) or $_COOKIE['tipoUsuario']!="Administradores"){
+        header("Location: error.php");
+    }
+?>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -55,7 +63,7 @@
                         <input type="text" class="form-control" placeholder="Buscar Repartidor">
                     </div>                            
                 </div>
-                <div class="row mb-3">
+                <div class="row mb-3 justify-content-center">
                     <table class="table table-hover text-center">
                         <thead>
                             <tr>
@@ -75,6 +83,11 @@
                             
                         </tbody>
                     </table>
+                    <div class="row justify-content-center" id="restRepartidores">
+                            <button class="btn btn-default btn-lg">
+                                <i class="zmdi zmdi-replay zmdi-hc-spin-reverse zmdi-hc-5x"></i>
+                            </button>
+                    </div>
                 </div>
             </div>
             <div class="container-fluid tab-pane" id="administradores" role="tabpanel" aria-labelledby="administradores-tab">
@@ -88,7 +101,7 @@
                         <input type="text" class="form-control" placeholder="Buscar Administrador">
                     </div>                            
                 </div>
-                <div class="row mb-3">
+                <div class="row justify-content-center mb-3">
                     <table class="table table-hover text-center">
                         <thead>
                             <tr>
@@ -107,8 +120,12 @@
                             
                         </tbody>
                     </table>
+                    <div class="row justify-content-center" id="restAdministradores">
+                            <button class="btn btn-default btn-lg">
+                                <i class="zmdi zmdi-replay zmdi-hc-spin-reverse zmdi-hc-5x"></i>
+                            </button>
+                    </div>
                 </div>
-                        
             </div>
         </div>
     </main>
@@ -127,46 +144,46 @@
                     <form id="formularioRepartidor">
                         <input type="hidden" id="codigoRepartidor" name="codigoRepartidor">
                         <div class="form-group">
-                            <label for="nombreRepartidor">Nombre</label>
+                            <label for="nombreRepartidor">Nombre<span style="color:red">*</span></label>
                             <input id="nombreRepartidor" name="nombreRepartidor" type="text" class="form-control">
                         </div>
                         <div class="form-group">
-                            <label for="correoRepartidor">Correo</label>
+                            <label for="correoRepartidor">Correo<span style="color:red">*</span></label>
                             <input id="correoRepartidor" name="correoRepartidor" type="text" class="form-control">
                         </div>
                         <div class="form-group" id="contraR">
-                            <label for="passwordRepartidor">Password</label>
+                            <label for="passwordRepartidor">Password<span style="color:red">*</span></label>
                             <input id="passwordRepartidor" name="passwordRepartidor" type="text" class="form-control">
                         </div>
                         <div class="form-group">
-                            <label for="identidadRepartidor">No. Identidad</label>
+                            <label for="identidadRepartidor">No. Identidad<span style="color:red">*</span></label>
                             <input id="identidadRepartidor" name="identidadRepartidor" type="text" class="form-control">
                         </div>
                         <div class="form-group">
-                            <label for="celularRepartidor">Celular</label>
-                            <input id="celularRepartidor" name="celularRepartidor" type="text" class="form-control">
+                            <label for="celularRepartidor">Celular<span style="color:red">*</span></label>
+                            <input id="celularRepartidor" name="celularRepartidor" type="tel" class="form-control">
                         </div>
                         <div class="form-group">
-                            <label for="direccionRepartidor">Direccion</label>
+                            <label for="direccionRepartidor">Direccion<span style="color:red">*</span></label>
                             <input id="direccionRepartidor" name="direccionRepartidor" type="text" class="form-control">
                         </div>
                         <div class="form-group">
-                            <label for="transporte">Trasnporte</label>
+                            <label for="transporte">Trasnporte<span style="color:red">*</span></label>
                             <input id="transporteRepartidor" name="transporteRepartidor" type="text" class="form-control">
                         </div>
                         <div class="form-group">
-                            <label for="zona">Zona</label>
+                            <label for="zona">Zona<span style="color:red">*</span></label>
                             <input id="zonaRepartidor" name="zonaRepartidor" type="text" class="form-control">
                         </div>
                         <div class="form-group">
-                            <label for="sueldo">Sueldo</label>
-                            <input name="sueldoRepartidor" id="sueldoRepartidor" type="text" class="form-control">
+                            <label for="sueldo">Sueldo<span style="color:red">*</span></label>
+                            <input name="sueldoRepartidor" id="sueldoRepartidor" type="number" class="form-control">
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                    <button type="button" class="btn btn-c1 cre-btn" onclick="crearRepartidor()">Agregar</button>
+                    <button type="button" class="btn btn-c1 cre-btn" onclick="crearRepartidor()" id="createDeliveryBtn">Agregar</button>
                     <button type="button" class="btn btn-c1 act-btn" onclick="actualizarRepartidor($('#idRepartidor').val())">Actualizar</button>
                 </div>
             </div>
@@ -222,7 +239,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                    <button type="button" class="btn btn-c1 cre-btn2" onclick="crearAdministrador()">Agregar</button>
+                    <button id="btnCrearAdmin" type="button" class="btn btn-c1 cre-btn2" onclick="crearAdministrador()">Agregar</button>
                     <button type="button" class="btn btn-c1 act-btn2" onclick="actualizarAdministrador($('#idAdministrador').val())">
                         Actualizar
                     </button>
@@ -234,9 +251,11 @@
     <script src="js/jquery-3.4.1.min.js"></script>
     <script src="js/popper.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="js/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
     <script src="js/implementos.js"></script>
-    <script src="js/Ajax/empleados.js"></script>
+    <script src="js/controladores/empleados.js"></script>
+    <script src="js/controladores/validacion.js"></script>
     <script type="text/javascript">
         verRepartidores();
     </script>

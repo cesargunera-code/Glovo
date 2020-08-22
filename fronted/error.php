@@ -18,13 +18,8 @@
         </a>
         <div class="form-inline">
             <div class="form-row font-1">
-                <a class="btn btn-c1 btn-radius my-2 mx-1 py-2 px-3 shadow" data-toggle="modal"
-                    data-target="#modalRegistrarse">
-                    Registrarse
-                </a>
-                <a class="btn btn-light btn-radius my-2 mx-1 p-2 shadow" data-toggle="modal"
-                data-target="#modalInicioSesion">
-                    Iniciar sesion
+                <a class="btn btn-c1 btn-radius my-2 mx-1 py-2 px-5 shadow" href="login.php">
+                    Inicio
                 </a>
             </div>
         </div>
@@ -84,37 +79,51 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form>
+                        <form id="formularioLogin">
                             <div class="form-group row">
-                                <label for="nombre" class="col-sm-2 col-form-label">
-                                    <i class="zmdi zmdi-email zmdi-hc-2x" style="color: black;"></i>
+                                <label for="nombre" class="col-sm-2">
+                                    <i class="zmdi zmdi-accounts zmdi-hc-2x" style="color: gray;"></i>
                                 </label>
                                 <div class="col-sm-10">
-                                    <input type="email" class="form-control" placeholder="e-mail">
+                                    <select class="form-control" name="tipoUsuario" id="tipoUsuario">
+                                        <option value="Clientes">Cliente</option>
+                                        <option  value="Repartidores">Repartidor</option>
+                                        <option value="Administradores">Administrador</option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="nombre" class="col-sm-2 col-form-label">
-                                    <i class="zmdi zmdi-lock zmdi-hc-2x" style="color: black;"></i>
+                                    <i class="zmdi zmdi-email zmdi-hc-2x" style="color: gray;"></i>
                                 </label>
                                 <div class="col-sm-10">
-                                    <input type="password" class="form-control" id="passwordI" placeholder="password">
+                                    <input name="email" type="email" class="form-control" placeholder="e-mail">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="nombre" class="col-sm-2 col-form-label">
+                                    <i class="zmdi zmdi-lock zmdi-hc-2x" style="color: gray;"></i>
+                                </label>
+                                <div class="col-sm-10">
+                                    <input name="password" type="password" class="form-control" id="passwordI" placeholder="password">
                                 </div>
                             </div>
                         </form>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary btn-radius" data-dismiss="modal">Cerrar</button>
-                        <button type="button" class="btn btn-c1 btn-radius">Ingresar</button>
+                        <button type="button" class="btn btn-c1 btn-radius" id="btn-login">Ingresar</button>
                     </div>
                 </div>
             </div>
         </div>
+        
     </main>
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="js/axios.min.js"></script>
     <script src="js/jquery-3.4.1.min.js"></script>
     <script src="js/popper.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
+    <script src="js/controladores/login.js"></script>
 </body>
 
 </html>

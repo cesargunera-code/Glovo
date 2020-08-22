@@ -67,8 +67,8 @@ class Empresas{
     }
     //obtener array con los datos
     public function getData(){
-        $empresa['codigoCategoria']=$this->codigoCategoria;
-        $empresa['codigoEmpresa']=$this->codigoEmpresa;
+        $empresa['codigoCategoria']=(integer)$this->codigoCategoria;
+        $empresa['codigoEmpresa']=(integer)$this->codigoEmpresa;
         $empresa['nombreEmpresa']=$this->nombreEmpresa;
         $empresa['direccion']=$this->direccion;
         $empresa['correo']=$this->correo;

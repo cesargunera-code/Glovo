@@ -1,4 +1,13 @@
-<?php include ('verificacion.php'); ?>
+<?php 
+    require_once('../backend/class/class-login.php');
+    require_once('../backend/class/class-database.php');
+    $database = new Database();
+    $db = $database->getDB();
+    if(!Login::verificarAutentificacion($db) or $_COOKIE['tipoUsuario']!='Administradores'){
+        header("Location: error.php");
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -62,16 +71,20 @@
                                     <th scope="col">Direccion</th>
                                     <th scope="col">Telefono</th>
                                     <th scope="col">Correo</th>
-                                    <th scope="col">Contacto</th>
                                     <th scope="col">Productos</th>
                                     <th scope="col">Actualizar</th>
                                     <th scope="col">Eliminar</th>
                                 </tr>
                             </thead>
-                            <tbody id="tablaSocios">
+                            <tbody id="tablaEmpresas">
 
                             </tbody>
                         </table>
+                        <div class="row justify-content-center" id="restEmpresas">
+                            <button class="btn btn-default btn-lg">
+                                <i class="zmdi zmdi-replay zmdi-hc-spin-reverse zmdi-hc-5x"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -241,10 +254,12 @@
     <script src="js/jquery-3.4.1.min.js"></script>
     <script src="js/popper.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script src="js/ajax/empresas.js"></script>
-    <script src="js/ajax/productos.js"></script>
+    <script src="js/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <script src="js/controladores/empresas.js"></script>
+    <script src="js/controladores/productos.js"></script>
     <script src="js/implementos.js"></script>
+    <script src="js/controladores/validacion.js"></script>
     <script type="text/javascript">verEmpresas(); mostrarListaImagenes()</script>
 </body>
 

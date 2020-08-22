@@ -15,7 +15,9 @@ class Repartidores extends Empleados{
 
     public function crearRepartidor($db){
         $this->obtenerUltimoCodigo($db);
-        $key =$db->getReference('Repartidores')->push($this->getData());
+        $datosRepartidor = $this->getData();
+        $datosRepartidor['password'] = password_hash($this->getPassword(),PASSWORD_DEFAULT);
+        $key =$db->getReference('Repartidores')->push($datosRepartidor);
         if($key->getKey()!= null){
             echo '{"mensaje":"Registro Almacenado","key":"'.$key->getKey().'"}';
         }else{
@@ -34,7 +36,14 @@ class Repartidores extends Empleados{
     }
 
     public function actualizarRepartidor($db,$idRepartidor){
-        $key =$db->getReference('Repartidores')->getChild($idRepartidor)->set($this->getData());
+        $datosRepartidor =$this->getData();
+        /**evitamos que se pueda dar el error de que al actualizar todos los usuarios tengan
+         * el token de el usuario logeado
+        **/
+        if($_COOKIE['key']==$idRepartidor){
+            $datosRepartidor['token']=$_COOKIE['token'];
+        }
+        $key =$db->getReference('Repartidores')->getChild($idRepartidor)->set($datosRepartidor);
         if($key->getKey()!=null){
             echo '{"mensaje":"Registro Actualizado","key":"'.$key->getKey().'"}';
         }else{
@@ -47,24 +56,24 @@ class Repartidores extends Empleados{
     }
 
     public function getData(){
-            $repartidor['codigoRepartidor'] = $this->getCodigoRepartidor();
+            $repartidor['codigoRepartidor'] =(integer) $this->getCodigoRepartidor();
             $repartidor['nombre'] = $this->getNombre();
             $repartidor['id'] = $this->getId();
             $repartidor['correo'] = $this->getCorreo();
-            $repartidor['password'] =password_hash($this->getPassword(),PASSWORD_DEFAULT);
+            $repartidor['password'] =$this->getPassword();
             $repartidor['direccion'] = $this->getDireccion();
             $repartidor['celular'] = $this->getCelular();
             $repartidor['zona'] = $this->getZona();
             $repartidor['transporte'] = $this->getTransporte();
-            $repartidor['sueldo'] = $this->getSueldo();
+            $repartidor['sueldo'] =(integer) $this->getSueldo();
             $repartidor['privilegios'] = 2;
         return $repartidor;
     }
 
     public function obtenerUltimoCodigo($db){
         $repartidores= $db->getReference('Repartidores')->getSnapshot()->getValue();
-        $ultimoRepartidor = end($repartidores);
-        $ultimoCodigoRepartidor = (integer)$ultimoRepartidor['codigoRepartidor'];
+        $indice = array_key_last($repartidores);
+        $ultimoCodigoRepartidor = (integer)$repartidores[$indice]['codigoRepartidor'];
         $ultimoCodigoRepartidor++;
         $this->setCodigoRepartidor($ultimoCodigoRepartidor);
     }

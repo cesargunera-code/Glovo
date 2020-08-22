@@ -1,4 +1,12 @@
-<?php include ('verificacion.php'); ?>
+<?php 
+    require_once('../backend/class/class-login.php');
+    require_once('../backend/class/class-database.php');
+    $database = new Database();
+    $db = $database->getDB();
+    if(!Login::verificarAutentificacion($db) or $_COOKIE['tipoUsuario']!='Administradores'){
+        header("Location: error.php");
+    }
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -55,19 +63,21 @@
                                 <tr>
                                     <th>Nombre</th>
                                     <th>Correo</th>
-                                    <th>password</th>
                                     <th>Id</th>
                                     <th>Celular</th>                                    
                                     <th>Targetas</th>
                                     <th>Ubicaciones</th>
-                                    <th>Actualizar</th>
                                     <th>Eliminar</th>
                                 </tr>
                             </thead>
                             <tbody id="tablaClientes">
-                                
                             </tbody>
                         </table>
+                        <div class="row justify-content-center" id="restClientes">
+                            <button class="btn btn-default btn-lg">
+                                <i class="zmdi zmdi-replay zmdi-hc-spin-reverse zmdi-hc-5x"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -97,10 +107,10 @@
     <script src="js/jquery-3.4.1.min.js"></script>
     <script src="js/popper.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="js/axios.min.js"></script>
     <script src="js/main.js"></script>
     <script src="js/implementos.js"></script>
-    <script src="js/Ajax/clientes.js"></script>
+    <script src="js/controladores/clientes.js"></script>
     <script type="text/javascript">verClientes();</script>
 </body>
 

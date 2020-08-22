@@ -66,12 +66,12 @@ class Productos{
     }
 
     public function getData(){
-        $producto['codigoProducto']=$this->codigoProducto;
-        $producto['codigoEmpresa']=$this->codigoEmpresa;
+        $producto['codigoProducto']=(integer)$this->codigoProducto;
+        $producto['codigoEmpresa']=(integer)$this->codigoEmpresa;
         $producto['nombreProducto']=$this->nombreProducto;
         $producto['descripcion']=$this->descripcion;
         $producto['imagen']=$this->imagen;
-        $producto['precio']=$this->precio;
+        $producto['precio']=(integer)$this->precio;
         return $producto;
     }
 

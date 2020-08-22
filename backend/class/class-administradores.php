@@ -10,8 +10,10 @@ class Administradores extends Empleados{
         $this->cargo = $cargo;
     }
     public function crearAdministrador($db){
-        $administrador = $this->getData();
-        $key =$db->getReference('Administradores')->push($administrador);
+        $this->obtenerUltimoCodigo($db);
+        $datosAdministrador = $this->getData();
+        $datosAdministrador['password'] = password_hash($this->getPassword(),PASSWORD_DEFAULT);
+        $key =$db->getReference('Administradores')->push($datosAdministrador);
         if($key->getKey()!= null){
             echo '{"mensaje":"Registro Almacenado","key":"'.$key->getKey().'"}';
         }else{
@@ -27,7 +29,14 @@ class Administradores extends Empleados{
         echo json_encode($adm);
     }
     public function actualizarAdministrador($db,$idAdmi){
-        $key =$db->getReference('Administradores')->getChild($idAdmi)->set($this->getData());
+        $datosAdministrador =$this->getData();
+        /**evitamos que se pueda dar el error de que al actualizar todos los usuarios tengan
+         * el token de el usuario logeado
+        **/
+        if($_COOKIE['key']==$idAdmi){
+            $datosAdministrador['token']=$_COOKIE['token'];
+        }
+        $key =$db->getReference('Administradores')->getChild($idAdmi)->set($datosAdministrador);
         if($key->getKey()!=null){
             echo '{"mensaje":"Registro Actualizado","key":"'.$key->getKey().'"}';
         }else{
@@ -44,7 +53,7 @@ class Administradores extends Empleados{
         $administrador['nombre'] = $this->getNombre();
         $administrador['id'] = $this->getId();
         $administrador['correo'] = $this->getCorreo();
-        $administrador['password'] = password_hash($this->getPassword(),PASSWORD_DEFAULT);
+        $administrador['password'] = $this->getPassword();
         $administrador['direccion'] = $this->getDireccion();
         $administrador['celular'] = $this->getCelular();
         $administrador['sueldo'] = $this->getSueldo();
@@ -55,8 +64,8 @@ class Administradores extends Empleados{
 
     public function obtenerUltimoCodigo($db){
         $administradores= $db->getReference('Administradores')->getSnapshot()->getValue();
-        $ultimoAdministrador = end($administradores);
-        $ultimoCodigoAdministrador = (integer)$ultimoAdministrador['codigoAdministrador'];
+        $indice = array_key_last($administradores);
+        $ultimoCodigoAdministrador = (integer)$administradores[$indice]['codigoAdministrador'];
         $ultimoCodigoAdministrador++;
         $this->setCodigoAdministrador($ultimoCodigoAdministrador);
     }

@@ -1,9 +1,9 @@
 <?php
-    require_once('../backend/class/class-usuarios.php');
+    require_once('../backend/class/class-login.php');
     require_once('../backend/class/class-database.php');
     $database = new Database();
     $db = $database->getDB();
-    if(!Usuarios::verificarAutentificacion($db)){
+    if(!Login::verificarAutentificacion($db)){
         header("Location: login.php");
     }
 ?>
@@ -16,6 +16,7 @@
     <link rel="stylesheet" type="text/css" media="screen" href="css/bootstrap.min.css" />
     <link rel="stylesheet" href="css/material-design-iconic-font.css">
     <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="https://unpkg.com/tippy.js@6/animations/scale.css"/>
     <title>Glovo</title>
 </head>
 <body>
@@ -24,34 +25,7 @@
             <i class="zmdi zmdi-search zmdi-hc-2x"></i>
             <span class="align-top">¿Que Necesitas?</span>
         </a>
-        <div class="form-inline">
-            <div class="form-row mx-3">
-                <a class="btn btn-c3 btn-radius mx-1 my-0 py-0" href="#">
-                    <i class="zmdi zmdi-account-circle zmdi-hc-3x"></i>
-                </a>
-                <a class="btn btn-c3 btn-radius mx-1 my-0 py-0" href="#">
-                    <i class="zmdi zmdi-format-list-bulleted zmdi-hc-3x"></i>
-                </a>
-            </div>
-            <div class="form-row  font-1">
-                <a class="btn btn-c2 btn-radius my-2 mx-1 py-2 px-3 shadow" href="clientes.php">
-                    Clientes
-                </a>
-                <a class="btn btn-c2 btn-radius my-2 mx-1 py-2 px-3 shadow" href="socios.php">
-                    Socios
-                </a>
-                <a class="btn btn-c2 btn-radius my-2 mx-1 py-2 px-3 shadow" href="empleados.php">
-                    Empleados
-                </a>
-                <a class="btn btn-c1 btn-radius my-2 mx-1 py-2 px-3 shadow" data-toggle="modal"
-                    data-target="#modalRegistrarse">
-                    Registrarse
-                </a>
-                <a class="btn btn-light btn-radius my-2 mx-1 p-2 shadow" data-toggle="modal"
-                data-target="#modalInicioSesion">
-                    Iniciar sesion
-                </a>
-            </div>
+        <div class="form-inline font-1" id="form-navegacion">
         </div>
     </nav>
     <main class="container-fluid p-0 m-0 text-center" background-color: #FFC244>
@@ -61,30 +35,44 @@
                 Lo que sea en <span style="color:#00A082;">Tegucigalpa</span><br>
                 <small>entrega en unos minutos</small>
             </article>
+            <div class="row justify-content-center">
             <div class="container">
-                <a class="btn btn-light rounded-circle mx-1 mt-5 px-4 shadow" onclick="verEmpresasXCategoria(4)">
-                    <img class="img-fluid" src="resource/img/img-categorias/comida.webp" width="60">
-                    <p>Comidas</p>
-                </a>
-                <a class="btn btn-light rounded-circle mx-1 mt-5 px-4 shadow" onclick="verEmpresasXCategoria(3)">
-                    <img class="img-fluid" src="resource/img/img-categorias/supermercados.webp" width="60">
-                    <p>Super</p>
-                </a>
-                <a class="btn btn-light rounded-circle mx-1 mt-5 px-4 shadow" onclick="verEmpresasXCategoria(2)">
-                    <img class="img-fluid" src="resource/img/img-categorias/variedades.webp" width="60">
-                    <p>Tiendas</p>
-                </a>
-                <a class="btn btn-light rounded-circle mx-1 mt-5 px-4 shadow" onclick="verEmpresasXCategoria(1)">
-                    <img class="img-fluid" src="resource/img/img-categorias/farmacias.webp" width="60">
-                    <p>Farmacias</p>
-                </a>
-                <a class="btn btn-light rounded-circle mx-1 mt-5 px-4 shadow" href="express.html">
-                    <img class="img-fluid" src="resource/img/img-categorias/domicilios.webp" width="60">
-                    <p>Express</p>
-                </a>
+                <div class="row justify-content-center" id="menuCategoria">
+                    <a class="btn btn-light rounded-circle mx-1 mt-5 px-4 shadow" onclick="verEmpresasXCategoria(4)">
+                        <img class="img-fluid" src="resource/img/img-categorias/comida.webp" width="60">
+                        <p>Comidas</p>
+                    </a>
+                    <a class="btn btn-light rounded-circle mx-1 mt-5 px-4 shadow" onclick="verEmpresasXCategoria(3)">
+                        <img class="img-fluid" src="resource/img/img-categorias/supermercados.webp" width="60">
+                        <p>Super</p>
+                    </a>
+                    <a class="btn btn-light rounded-circle mx-1 mt-5 px-4 shadow" onclick="verEmpresasXCategoria(2)">
+                        <img class="img-fluid" src="resource/img/img-categorias/variedades.webp" width="60">
+                        <p>Tiendas</p>
+                    </a>
+                    <a class="btn btn-light rounded-circle mx-1 mt-5 px-4 shadow" onclick="verEmpresasXCategoria(1)">
+                        <img class="img-fluid" src="resource/img/img-categorias/farmacias.webp" width="60">
+                        <p>Farmacias</p>
+                    </a>
+                    <a class="btn btn-light rounded-circle mx-1 mt-5 px-4 shadow" href="express.html">
+                        <img class="img-fluid" src="resource/img/img-categorias/domicilios.webp" width="60">
+                        <p>Express</p>
+                    </a>
+                </div>
+                <div class="row justify-content-center mt-3" id="restCategoria" style="display: none;">
+                    <button class="btn btn-default btn-lg">
+                        <i class="zmdi zmdi-replay zmdi-hc-spin-reverse zmdi-hc-5x"
+                        style="color:#2abb9b"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="container mt-3" id="restCategoria" >
+                
+            </div>
+
             </div>
         </section>
-        <section class="container-fluid bg-light>
+        <section class="container-fluid bg-light">
             <div class="row h2 justify-content-center pt-5 pb-0 mb-0">
                 <article class="h2 mt-5">
                     Las Ultimas Tendencias En Tu Ciudad
@@ -102,8 +90,10 @@
         </section>
         <aside class="container-fluid" style="background-color: white;">
             <div class="row" id="app-background">
-                <img class="img-fluid" src="resource/img/img-varios/phone.webp" alt="" srcset="">
                 <div class="container">
+                    <div class="row justify-content-center">
+                    <img class="img-fluid" src="resource/img/img-varios/phone.webp" alt="" srcset="">
+                    </div>
                     <div class="row justify-content-center">
                         <div class="col">
                             <p class="display-2">Descarga Nuestra App</p>
@@ -177,81 +167,7 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="modal fade" id="modalRegistrarse" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-            aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="title" id="exampleModalLongTitle">Registrate En Glovo</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <form id="formularioCliente">
-                            <div class="form-group row">
-                                <label for="nombre" class="col-sm-2 col-form-label p-0">
-                                    <i class="zmdi zmdi-email zmdi-hc-2x" style="color: gray;"></i>
-                                </label>
-                                <div class="col-sm-10">
-                                    <input name="emailCliente" id="emailCliente" type="email" class="form-control" placeholder="e-mail">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="nombre" class="col-sm-2 col-form-label p-0">
-                                    <i class="zmdi zmdi-lock zmdi-hc-2x" style="color: gray;"></i>
-                                </label>
-                                <div class="col-sm-10">
-                                    <input name="passwordCliente" type="password" class="form-control" id="passwordCliente" placeholder="password">
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary btn-radius" data-dismiss="modal">Cerrar</button>
-                        <button type="button" class="btn btn-c1 btn-radius" onclick="registrarCliente()">Registrarse</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="modal fade" id="modalInicioSesion" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-            aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="title" id="exampleModalLongTitle">Inicio De Sesion</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <form id="formularioLogin">
-                            <div class="form-group row">
-                                <label for="nombre" class="col-sm-2 col-form-label">
-                                    <i class="zmdi zmdi-email zmdi-hc-2x" style="color: black;"></i>
-                                </label>
-                                <div class="col-sm-10">
-                                    <input name="email" type="email" class="form-control" placeholder="e-mail">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="nombre" class="col-sm-2 col-form-label">
-                                    <i class="zmdi zmdi-lock zmdi-hc-2x" style="color: black;"></i>
-                                </label>
-                                <div class="col-sm-10">
-                                    <input name="password" type="password" class="form-control" id="passwordI" placeholder="password">
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary btn-radius" data-dismiss="modal">Cerrar</button>
-                        <button type="button" class="btn btn-c1 btn-radius" id="logear-cliente">Ingresar</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+        </div>        
         <div class="modal fade" id="modalAgregarProducto" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
             aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
@@ -263,9 +179,9 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form id="formularioProcesamiento">
+                        <form id="formularioOrden">
                             <div class="row">
-                                <input type="hidden" name="codigoProducto">
+                                <input type="hidden" name="codigoProducto" id="codigoProducto">
                                 <div class="col-5  font-1">
                                     <label for="cantidad">Ingrese la cantidad:</label>
                                 </div>
@@ -285,23 +201,23 @@
     </main>
     <footer class="container-fluid px-5 pt-5 bg-dark mt-5" style="color: white;">
     </footer>
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="js/axios.min.js"></script>
     <script src="js/jquery-3.4.1.min.js"></script>
-    <script src="js/popper.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
+    <script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.min.js"></script>
+    <script src="https://unpkg.com/tippy.js@6/dist/tippy-bundle.umd.js"></script>
+    <script src="js/controladores/clientes.js"></script>
+    <script src="js/controladores/ordenes.js"></script>
     <script src="js/implementos.js"></script>
-    <script src="js/Ajax/empresas.js"></script>
-    <script src="js/Ajax/productos.js"></script>
-    <script src="js/Ajax/clientes.js"></script>
-    <script src="js/Ajax/ordenes.js"></script>
-    <script src="js/Ajax/login.js"></script>
+    <script src="js/controladores/empresas.js"></script>
+    <script src="js/controladores/productos.js"></script>
+    <script src="js/controladores/login.js"></script>
     <script type="text/javascript">
         window.scroll({
             top: 0,
             left: 100,
             behavior: 'smooth'
         });
-        </script>
+    </script>
 </body>
-
 </html>

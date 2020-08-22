@@ -36,24 +36,22 @@ class Clientes extends Usuarios
     }
 
     public static function obtenerCliente($db,$idCliente){
-        $Cliente = $db->getReference('Cliente')->getChild($idCliente)->getValue();
+        $Cliente = $db->getReference('Clientes')->getChild($idCliente)->getValue();
         echo json_encode($Cliente);
     }
 
     public function actualizarCliente($db,$idCliente){
-        $key =$db->getReference('Clientes')->getChild($idCliente)->set($this->getData());
-        if($key->getKey()!=null){
-            echo '{"mensaje":"Registro Actualizado","key":"'.$key->getKey().'"}';
-        }else{
-            echo '{"mensaje":"Error Al Actualizar Registro"}';
-        }
+        $db->getReference('Clientes/'.$idCliente.'/nombre')->set($this->getNombre());
+        $db->getReference('Clientes/'.$idCliente.'/correo')->set($this->getCorreo());
+        $db->getReference('Clientes/'.$idCliente.'/id')->set($this->getId());
+        $db->getReference('Clientes/'.$idCliente.'/celular')->set($this->getCelular());
     }
 
     public static function eliminarCliente($db,$idCliente){
         $db->getReference('Clientes')->getChild($idCliente)->remove();
     }
     public function getData(){
-        $cliente['codigoCliente'] = $this->getCodigoCliente();
+        $cliente['codigoCliente'] = (integer)$this->getCodigoCliente();
         $cliente['nombre'] = $this->getNombre();
         $cliente['correo'] = $this->getCorreo();
         $cliente['password'] = password_hash($this->getPassword(),PASSWORD_DEFAULT);
@@ -66,8 +64,8 @@ class Clientes extends Usuarios
 
     public function obtenerUltimoCodigo($db){
         $clientes= $db->getReference('Clientes')->getSnapshot()->getValue();
-        $ultimoCliente = end($clientes);
-        $ultimoCodigoCliente = (integer)$ultimoCliente['codigoCliente'];
+        $indice = array_key_last($clientes);
+        $ultimoCodigoCliente = (integer)$clientes[$indice]['codigoCliente'];
         $ultimoCodigoCliente++;
         $this->setCodigoCliente($ultimoCodigoCliente);
     }
