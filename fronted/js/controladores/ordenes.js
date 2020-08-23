@@ -17,8 +17,10 @@ function agregarALaOrden(){
     }).then((respuesta)=>{
         $('#modalProductos').modal('hide');
         $('#modalAgregarProducto').modal('hide');
+        $('#btnOrd').show();
+        $('#restOrd').hide();
+        $('#cantidad').val('');
         Swal.fire('Pedido Agregado','','success');
-        //$('#modalProductos').modal('show');
         console.log(respuesta);
     }).catch(error=>{
         console.error(error);
@@ -87,8 +89,11 @@ function verOrdenes(){
                                     </h6>
                                     </div>
                                     <div class="col-5 p-0">
-                                    <a class="btn btn-c1 btn-block">
+                                    <a id="actOrd" onclick="procesar();" class="btn btn-c1 btn-block">
                                         Procesar Orden
+                                    </a>
+                                    <a id="restOrd" class="btn btn-c1 px-5" style="color:white;display:none;">
+                                        <i  class="zmdi zmdi-replay zmdi-hc-spin-reverse"></i>
                                     </a>
                                     </div>
                                 </div>
@@ -108,4 +113,10 @@ function verOrdenes(){
             VentanaDatos._error = null;
         }
     });
+}
+
+function procesar(){
+    $('#actOrd').hide();
+    $('#restOrd').show();
+    Swal.fire('Orden Procesada','','success').then(r=>{$('#actOrd').show();$('#restOrd').hide();});
 }

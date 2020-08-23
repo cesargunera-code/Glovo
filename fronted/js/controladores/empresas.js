@@ -14,6 +14,7 @@ function crearEmpresa(){
         data: empresa
     }).then(respuesta=>{
         console.log(respuesta);
+        limpiarFormularioEmpresa('#formularioEmpresa .form-group input');
         verEmpresas();
     }).catch(error=>{
         console.error(error);
@@ -139,6 +140,7 @@ function actualizarEmpresa(idEmpresa){
             respuesta.data.mensaje,
             'success'
         ).then(respuesta=>verEmpresas());
+        limpiarFormularioEmpresa('#formularioEmpresa .form-group input');
     }
     ).catch(function(error){
         console.error(error)
@@ -206,4 +208,10 @@ function intercalarBotones(x){
         document.querySelector('#act-btn').style.display= 'none';
         document.querySelector('#cre-btn').style.display= 'block';
     }
+}
+
+function limpiarFormularioEmpresa(input){
+    Array.from(document.querySelectorAll(input)).forEach(
+        (input) => (input.value = "")
+    );
 }

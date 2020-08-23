@@ -27,7 +27,8 @@ $('#btn-login').click(function () {
                 icon: 'error',
                 title: 'Error',
                 text: 'Las credenciales estan incorrectas',
-            });
+            }).then(limpiarFormulario('#formularioLogin .form-group input'));
+            
         }
     }).catch(function (error) {
         console.error(error);
@@ -90,3 +91,9 @@ function verificarPrivilegios(){
     });
 }
 verificarPrivilegios();
+
+function limpiarFormulario(input){
+    Array.from(document.querySelectorAll(input)).forEach(
+        (input) => (input.value = "")
+    );
+}

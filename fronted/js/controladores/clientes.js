@@ -10,9 +10,11 @@ function registrarCliente() {
         data: cliente
     }).then(respuesta => {
         console.log(respuesta);
+        limpiar_formulario('#formularioCliente .form-group input');
     }).catch(error => {
         console.error(error);
     });
+    
 }
 //obtenemos todos los clientes para visualizarlos en una tabla solo para administradores
 function verClientes() {
@@ -99,7 +101,13 @@ function verCliente() {
                                 value="${datosUsuario[indice].celular}">
                             </div>
                             <hr>
-                            <a class="btn btn-c1" onclick="actualizarCliente()">Actualizar</a>
+                            <a id="actCli"class="btn btn-c1" 
+                            onclick="actualizarCliente()">
+                            Actualizar
+                            </a>
+                            <a id="restCli" class="btn btn-c1 px-5" style="color:white;display:none;">
+                            <i  class="zmdi zmdi-replay zmdi-hc-spin-reverse"></i>
+                            </a>
                         </form>`;
                     }
                     VentanaDatos.setContent(html);
@@ -120,6 +128,8 @@ function verCliente() {
 }
 //actualizamos datos del cliente, menos su contrasena
 function actualizarCliente() {
+    $('#actCli').hide();
+    $('#restCli').show();
     let cliente = $('#formularioCliente').serialize();
     axios({
         method: 'PUT',
@@ -127,8 +137,15 @@ function actualizarCliente() {
         reponseType: 'json',
         data:cliente
     }).then(function(respuesta){
+        $('#actCli').show();
+        $('#restCli').hide();
+        Swal.fire(
+            'Actualizado',
+            '',
+            'success');
     }
     ).catch(function(error){
+        
         console.error(error);
     }
     );

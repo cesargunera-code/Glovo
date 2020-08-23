@@ -75,7 +75,9 @@ function crearRepartidor(){
         url: URLR,  
         reponseType: 'json',
         data: empleado
-    }).then(respuesta=>{verRepartidores();
+    }).then(respuesta=>{
+        verRepartidores();
+        limpiarFormularioEmp('#formularioRepartidor .form-group input');
     }).catch(error=>console.error(error));
     
 }
@@ -94,9 +96,11 @@ function actualizarRepartidor(idRepartidor){
             'Actualizado!',
             respuesta.data.mensaje,
             'success'
-        ).then(respuesta=>verRepartidores());
-    }
-    ).catch(function(error){
+        ).then(respuesta=>{
+            verRepartidores();
+            limpiarFormularioEmp('#formularioRepartidor .form-group input');
+        });
+    }).catch(function(error){
         console.error(error)
     }
     );
@@ -232,7 +236,10 @@ function crearAdministrador(){
         url: URLA,
         reponseType: 'json',
         data: administrador
-    }).then(respuesta=>{console.log(respuesta);verAdministradores();}).catch(error=>console.error(error));
+    }).then(respuesta=>{
+        verAdministradores();
+        limpiarFormularioEmp('#formularioAdmi .form-group input');
+    }).catch(error=>console.error(error));
 }
 
 //actualizarmos administrador
@@ -250,7 +257,10 @@ function actualizarAdministrador(idAdministrador){
                 'Actualizado!',
                 respuesta.data.mensaje,
                 'success'
-            ).then(respuesta=>verAdministradores());
+            ).then(respuesta=>{
+                verAdministradores()
+                limpiarFormularioEmp('#formularioAdmi .form-group input');
+            });
         }).catch(function(error){
             console.error(error);
         }); 
@@ -325,4 +335,9 @@ function intercalarBotones(x,nombre){
         $('#contraR').show();
         $('#contraA').show();
     }
+}
+function limpiarFormularioEmp(input){
+    Array.from(document.querySelectorAll(input)).forEach(
+        (input) => (input.value = "")
+    );
 }

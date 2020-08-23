@@ -1,5 +1,5 @@
 const limpiarFormulario = (query) => {
-  Array.from(documnet.querySelectorAll(query)).forEach(
+  Array.from(document.querySelectorAll(query)).forEach(
     (field) => (field.value = "")
   );
 };
